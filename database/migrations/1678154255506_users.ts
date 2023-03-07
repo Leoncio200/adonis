@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.string('name')
       table.string('email').unique()
       table.bigInteger('phone').unsigned()
-      table.foreign('rol_id').references('roles.id')
+      table.integer('rol_id').unsigned().references('id').inTable('roles')
       table.boolean('active')
       table.string('CodeTemporal')
       table.string('password')
@@ -18,7 +18,7 @@ export default class extends BaseSchema {
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
       table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('updated_at', { useTz: true }).nullable()
     })
   }
 

@@ -9,15 +9,15 @@ export default class extends BaseSchema {
       table.string('nombre', 60)
       table.string('año_de_publicacion')
       table.string('numero_de_paginas')
-      table.foreign('fk_editorial').references('editoriales.id')
-      table.foreign('fk_autor').references('autores.id')
-      table.foreign('fk_pais').references('paises.id')
+      table.integer('fk_editorial').unsigned().references('id').inTable('editoriales')
+      table.integer('fk_autor').unsigned().references('id').inTable('autores')
+      table.integer('fk_pais').unsigned().references('id').inTable('paises')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
       table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('updated_at', { useTz: true }).nullable()
       table.boolean('status')
     })
   }
