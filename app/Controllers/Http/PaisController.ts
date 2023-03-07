@@ -3,11 +3,8 @@
 
 export default class PaisController {
     public async SeleccionarPais(){
-        const Database = use('Database')
-
-        const results = await Database.table('users').select('*')
-
-        
-
+        const axios = use('axios')
+        const response = await axios.get('https://restcountries.eu/rest/v2/all')   
+        return response.data
     }
 }
