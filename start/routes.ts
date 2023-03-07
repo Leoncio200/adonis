@@ -65,10 +65,10 @@ Route.get('/autores', 'LibroController.mostrarAutores')
 Route.get('/pais', 'LibroController.mostrarPaises')
 Route.get('/libros', 'LibroController.mostrarLibros')
 
-Route.post('/editoriales', 'LibroController.SeleccionarPais')
-Route.post('/autores', 'LibroController.SeleccionarPais')
+Route.post('/editoriales', 'LibroController.insertarEditoriales')
+Route.post('/autores', 'LibroController.insertarAutores')
 Route.post('/pais', 'LibroController.insertarPaises')
-Route.post('/libros', 'LibroController.SeleccionarPais')
+Route.post('/libros', 'LibroController.insertarLibros')
 
 Route.put('/editoriales', 'PaisController.SeleccionarPais')
 Route.put('/autores', 'PaisController.SeleccionarPais')
