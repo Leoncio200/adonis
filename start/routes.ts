@@ -62,7 +62,7 @@ Route.delete('/empleado/:id', 'PaisController.SeleccionarPais')
 
 Route.get('/editoriales', 'SeleccionarController.SeleccionarPais')
 Route.get('/autores', 'SeleccionarController.SeleccionarPais')
-Route.get('/pais', 'SeleccionarController.SeleccionarPais')
+Route.get('/pais', 'PaisController.SeleccionarPais')
 Route.get('/libros', 'SeleccionarController.SeleccionarPais')
 
 Route.post('/editoriales', 'PaisController.SeleccionarPais')

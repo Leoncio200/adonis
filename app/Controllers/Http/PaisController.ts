@@ -1,10 +1,8 @@
-// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
+import Pais from 'App/Models/Pais';
 
 export default class PaisController {
-    public async SeleccionarPais(){
-        const axios = use('axios')
-        const response = await axios.get('https://restcountries.eu/rest/v2/all')   
-        return response.data
+    async SeleccionarPais({ response }) {
+      const paises = await Pais.all()
+      return response.json(paises)
     }
-}
+  }
