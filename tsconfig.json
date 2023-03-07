@@ -1,6 +1,7 @@
 {
   "extends": "adonis-preset-ts/tsconfig.json",
   "include": [
+    "app/**/*.ts",
     "**/*"
   ],
   "exclude": [
@@ -8,6 +9,11 @@
     "build"
   ],
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "target": "es6",
     "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,
