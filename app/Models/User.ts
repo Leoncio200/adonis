@@ -24,7 +24,7 @@ export default class User extends BaseModel {
   public active: number
 
   @column()
-  public CodeTemporal: string
+  public CodeTemporal: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

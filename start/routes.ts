@@ -26,7 +26,7 @@ Route.get('/', async () => {
 Route.get('/prueba2', 'PaisController.SeleccionarPais')
 
 Route.put('/Validacion', 'PaisController.SeleccionarPais')
-Route.post('/user', 'LoginController.SeleccionarPais')
+Route.post('/user', 'InsertarController.User')
 Route.post('/login', 'LoginController.SeleccionarPais')
 Route.delete('/logout', 'LoginController.SeleccionarPais')
 Route.post('/rol', 'LoginController.SeleccionarPais')
@@ -38,11 +38,11 @@ Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios')//
 Route.put('/users/:id', 'PaisController.SeleccionarPais')
 Route.delete('/users/:id', 'PaisController.SeleccionarPais')
 
-Route.post('/cliente', 'PaisController.SeleccionarPais')
-Route.post('/provedor', 'PaisController.SeleccionarPais')
-Route.post('/empleado', 'PaisController.SeleccionarPais')
-Route.post('/producto', 'PaisController.SeleccionarPais')
-Route.post('/compra', 'PaisController.SeleccionarPais')
+Route.post('/cliente', 'InsertarController.insertarClientes')//
+Route.post('/provedor', 'InsertarController.insertarProvedores')//
+Route.post('/empleado', 'InsertarController.insertarEmpleados')//
+Route.post('/producto', 'InsertarController.insertarProductos')
+Route.post('/compra', 'InsertarController.InsertarCompras')
 
 Route.get('/cliente/:id?', 'SeleccionarController.SeleccionarCliente')//
 Route.get('/provedor/:id?', 'SeleccionarController.SeleccionarProvedor')//

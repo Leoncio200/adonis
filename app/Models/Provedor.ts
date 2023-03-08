@@ -2,7 +2,7 @@ import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 
 
-export default class Proveedor extends BaseModel {
+export default class Provedor extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
