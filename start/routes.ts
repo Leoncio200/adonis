@@ -70,7 +70,7 @@ Route.post('/autores', 'LibroController.insertarAutores')
 Route.post('/pais', 'LibroController.insertarPaises')
 Route.post('/libros', 'LibroController.insertarLibros')
 
-Route.put('/editoriales', 'PaisController.SeleccionarPais')
+Route.put('/editoriales/:id', 'LibroController.actualizarEditorial')
 Route.put('/autores', 'PaisController.SeleccionarPais')
 Route.put('/pais', 'PaisController.SeleccionarPais')
 Route.put('/libros', 'PaisController.SeleccionarPais')

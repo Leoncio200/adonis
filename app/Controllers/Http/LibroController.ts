@@ -6,6 +6,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import fetch from 'node-fetch';
 import { schema } from '@ioc:Adonis/Core/Validator';
 import Validator from 'Validator';
+'use strict'
 
 export default class PaisController {
     async mostrarPaises({ response }) {
@@ -221,4 +222,114 @@ export default class PaisController {
               Data: insertedLibro,
             })
           }
+
+          public async actualizarEditorial({ request, response }: HttpContextContract, Tok: string = ' ') {
+            const id = request.param('id')
+        
+            const validationSchema = schema.create({
+              nombre: schema.string.optional(),
+            });
+        
+            try {
+              await request.validate({
+                schema: validationSchema,
+              });
+            } catch (error) {
+              return response.badRequest(error.messages);
+            }
+        
+            if (request.ip() === '192.168.43.126') {
+              const Tok = request.input('Tok')
+              const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/editoriales/${id}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${Tok}`,
+                },
+                body: JSON.stringify({
+                  nombre: request.input('nombre'),
+                }),
+              });
+        
+              if (!fetchResponse.ok) {
+                return response.status(fetchResponse.status).send({ Msg: 'Algo ha ocurrido' });
+              }
+            }
+        
+            const editorial = await Editorial.find(id);
+            if (editorial) {
+              editorial.nombre = request.input('nombre') || editorial.nombre;
+        
+              await editorial.save();
+        
+              return response.status(204).json({
+                Status: 204,
+                Msg: 'Los datos se cambiaron de forma exitosa',
+                Data: editorial,
+              });
+            }
+        
+            return response.status(400).json({
+              Status: 400,
+              Msg: 'Empleado no encontrado',
+            });
+          }
+
+          public async actualizarAutor({ request, response }: HttpContextContract, Tok: string = '') {
+            const id = request.param('id');
+        
+            const validationSchema = schema.create({
+              nombre: schema.string.optional(),
+            });
+        
+            try {
+              await request.validate({
+                schema: validationSchema,
+              });
+            } catch (error) {
+              return response.badRequest(error.messages);
+            }
+        
+            if (request.ip() === '192.168.43.126') {
+              const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/autor/${id}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${Tok}`,
+                },
+                body: JSON.stringify({
+                  nombre: request.input('nombre'),
+                }),
+              });
+        
+              if (!fetchResponse.ok) {
+                return response.status(fetchResponse.status).send({ Msg: 'Algo ha ocurrido' });
+              }
+            }
+        
+            const autor = await Autor.find(id);
+            if (autor) {
+              autor.nombre = request.input('nombre') || autor.nombre;
+        
+              await autor.save();
+        
+              return response.status(204).json({
+                Status: 204,
+                Msg: 'Los datos se cambiaron de forma exitosa',
+                Data: autor,
+              });
+            }
+        
+            return response.status(400).json({
+              Status: 400,
+              Msg: 'Empleado no encontrado',
+            });
+          }
+        
+          
+
+          
+
+
+
   }
