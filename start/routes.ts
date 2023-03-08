@@ -70,10 +70,20 @@ Route.post('/autores', 'LibroController.insertarAutores')
 Route.post('/pais', 'LibroController.insertarPaises')
 Route.post('/libros', 'LibroController.insertarLibros')
 
+
+
+Route.get('/editoriales/UP/:id', 'LibroController.editEditorial')
 Route.put('/editoriales/:id', 'LibroController.actualizarEditorial')
+
+Route.get('/autores/UP/:id', 'LibroController.editAutor')
 Route.put('/autores/:id', 'LibroController.actualizarAutor')
+
+Route.get('/pais/UP/:id', 'LibroController.editPais')
 Route.put('/pais/:id', 'LibroController.actualizarPais')
+
+Route.get('/libros/UP/:id', 'LibroController.editLibro')
 Route.put('/libros/:id', 'LibroController.actualizarLibro')
+
 
 Route.delete('/editoriales', 'PaisController.SeleccionarPais')
 Route.delete('/autores', 'PaisController.SeleccionarPais')

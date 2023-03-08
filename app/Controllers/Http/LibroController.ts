@@ -445,6 +445,25 @@ export default class PaisController {
             })
           }
           
+          public async editEditorial({ params }) {
+            const editorial = await Editorial.findOrFail(params.id);
+            return editorial;
+          }
+
+          public async editAutor({ params }: HttpContextContract) {
+            const autor = await Autor.findOrFail(params.id)
+            return autor
+          }
+
+            public async editPais({ params }: HttpContextContract) {
+            const pais = await Pais.findOrFail(params.id)
+            return pais
+            }
+
+            public async editLibro({ params }: HttpContextContract) {
+            const libro = await Libro.findOrFail(params.id)
+            return libro
+            }
         
 
 
