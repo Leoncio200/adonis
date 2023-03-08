@@ -20,11 +20,11 @@ export default class User extends BaseModel {
   @column()
   public rol_id: number
 
-  @column({ columnName: 'active' })
-  public isActive: boolean
+  @column()
+  public active: number
 
   @column({ columnName: 'CodeTemporal' })
-  public codeTemporal: string
+  public CodeTemporal: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
