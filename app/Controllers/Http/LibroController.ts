@@ -166,7 +166,7 @@ export default class PaisController {
           public async insertarLibros({ request, response }: HttpContextContract, Tok: string = '') {
             const validationSchema = schema.create({
               nombre: schema.string(),
-              fecha_de_publicacion: schema.date({ format: 'YYYY/MM/DD' }),
+              fecha_de_publicacion: schema.string(),
               numero_de_paginas: schema.number(),
               fk_editorial: schema.number.optional(),
               fk_autor: schema.number.optional(),
