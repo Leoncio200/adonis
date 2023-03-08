@@ -21,6 +21,9 @@ export default class Compra extends BaseModel {
   @column()
   public Empleado: string
 
+  @column()
+  public Status: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

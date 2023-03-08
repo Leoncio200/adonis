@@ -11,6 +11,7 @@ export default class extends BaseSchema {
       table.integer('Cantidad').unsigned()
       table.float('MontoTotal').unsigned()
       table.integer('Empleado').unsigned().references('id').inTable('empleados')
+      table.boolean('Status')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
