@@ -1,4 +1,4 @@
-adimport { DateTime } from 'luxon'
+import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class User extends BaseModel {
@@ -23,7 +23,7 @@ export default class User extends BaseModel {
   @column()
   public active: number
 
-  @column({ columnName: 'CodeTemporal' })
+  @column()
   public CodeTemporal: string
 
   @column.dateTime({ autoCreate: true })
