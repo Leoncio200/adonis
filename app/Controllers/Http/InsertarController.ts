@@ -1,16 +1,23 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import fetch from 'node-fetch';
 import User from 'App/Models/User';
-import { schema } from '@ioc:Adonis/Core/Validator';
+import { schema,rules } from '@ioc:Adonis/Core/Validator';
 import Database from '@ioc:Adonis/Lucid/Database';
+import Cliente from 'App/Models/Cliente';
+import Provedor from 'App/Models/Provedor';
+import Empleado from 'App/Models/Empleado';
+import Producto from 'App/Models/Producto';
+
 
 
 export default class InsertarController {
-    public async validacion({ request, response }: HttpContextContract) {
+    public async Validacion({ request, response }: HttpContextContract) {
         const validationSchema = schema.create({
-          Correo: schema.string(),
-          Verificacion: schema.number([schema.rules.integer()]),
-        })
+            nombre: schema.string({}, [
+              rules.required(),
+              rules.maxLength(50),
+            ]),
+          })
     
         try {
           await request.validate({
@@ -61,5 +68,310 @@ export default class InsertarController {
           mensage: 'Usuario activado',
         })
       }
+
+
+      public async insertarClientes({ request, response }: HttpContextContract, Tok: string = '') {
+        const validationSchema = schema.create({
+          Nombre: schema.string(),
+          Ap_paterno: schema.string(),
+          Ap_materno: schema.string.optional(),
+          Correo: schema.string(),
+          Telefono: schema.number(),
+        });
+      
+        try {
+          await request.validate({
+            schema: validationSchema,
+          });
+        } catch (error) {
+          return response.badRequest(error.messages);
+        }
+      
+        if (request.ip() == '192.168.43.126') {
+          const response = await fetch('http://192.168.43.230:1030/api/search/cliente', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${Tok}`,
+            },
+            body: JSON.stringify({
+              Nombre: request.input('Nombre'),
+              Ap_paterno: request.input('Ap_paterno'),
+              Ap_materno: request.input('Ap_materno'),
+              Correo: request.input('Correo'),
+              Telefono: request.input('Telefono'),
+            }),
+          });
+      
+          if (!response.ok) {
+            return response.notFound(response.statusText);
+          }
+        }
+      
+        await Database.table('clientes').insert({
+          Nombre: request.input('Nombre'),
+          Ap_paterno: request.input('Ap_paterno'),
+          Ap_materno: request.input('Ap_materno'),
+          Correo: request.input('Correo'),
+          Numero: request.input('Telefono'),
+          Status: 1,
+        });
+      
+        const cliente = await Cliente.findBy('Correo', request.input('Correo'));
+      
+        return response.created({
+          Status: 201,
+          Msg: 'Los datos se insertaron de forma exitosa',
+          Data: cliente,
+        });
+      }
+
+
+
+      public async insertarProvedores({ request, response }: HttpContextContract, Tok: string = '') {
+        const validationSchema = schema.create({
+            Nombre: schema.string(),
+            Direccion: schema.string(),
+            Telefono: schema.number(),
+        });
+    
+        try {
+            await request.validate({
+                schema: validationSchema,
+            });
+        } catch (error) {
+            return response.badRequest(error.messages);
+        }
+    
+        if (request.ip() === '192.168.43.126') {
+            const res = await fetch('http://192.168.43.230:1030/api/search/provedor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${Tok}`,
+                },
+                body: JSON.stringify({
+                    Nombre: request.input('Nombre'),
+                    Direccion: request.input('Direccion'),
+                    Telefono: request.input('Telefono'),
+                }),
+            });
+    
+            if (!res.ok) {
+                return response.notFound(res.statusText);
+            }
+        }
+    
+        const provedor = new Provedor();
+        provedor.Nombre = request.input('Nombre');
+        provedor.Direccion = request.input('Direccion');
+        provedor.Telefono = request.input('Telefono');
+        provedor.Status = 1;
+        await provedor.save();
+    
+        return response.created({
+            Status: 201,
+            Msg: 'Los datos se insertaron de forma exitosa',
+            Data: provedor,
+        });
+    }
+
+    public async insertarEmpleados({ request, response }: HttpContextContract, Tok: string = '') {
+        const validationSchema = schema.create({
+            Nombre: schema.string(),
+            Ap_paterno: schema.string(),
+            Ap_materno: schema.string.optional(),
+            Edad: schema.number(),
+            Correo: schema.string(),
+            Telefono: schema.number(),
+        })
+    
+        try {
+            await request.validate({
+                schema: validationSchema,
+            })
+        } catch (error) {
+            return response.badRequest(error.messages)
+        }
+    
+        if (request.ip() === '192.168.43.126') {
+            const fetchResponse = await fetch('http://192.168.43.230:1030/api/search/empleado', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${Tok}`,
+                },
+                body: JSON.stringify({
+                    Nombre: request.input('Nombre'),
+                    Ap_paterno: request.input('Ap_paterno'),
+                    Ap_materno: request.input('Ap_materno'),
+                    Edad: request.input('Edad'),
+                    Correo: request.input('Correo'),
+                    Telefono: request.input('Telefono'),
+                }),
+            })
+            if (!fetchResponse.ok) {
+                return response.notFound(fetchResponse.statusText)
+            }
+        }
+    
+        await Database.table('empleados').insert({
+            Nombre: request.input('Nombre'),
+            Ap_paterno: request.input('Ap_paterno'),
+            Ap_materno: request.input('Ap_materno'),
+            Edad: request.input('Edad'),
+            Correo: request.input('Correo'),
+            Numero: request.input('Telefono'),
+            Status: 1,
+        })
+    
+        const empleado = await Empleado.findBy('Correo', request.input('Correo'))
+    
+        return response.created({
+            Status: 201,
+            Msg: 'Los datos se insertaron de forma exitosa',
+            Data: empleado,
+        })
+    }
+    
+
+    public async insertarProductos({ request, response }: HttpContextContract, Tok: string = '') {
+        const validationSchema = schema.create({
+          Nombre: schema.string(),
+          Stock: schema.number(),
+          Precio: schema.number(),
+          Marca: schema.number(),
+        })
+    
+        try {
+          await request.validate({
+            schema: validationSchema,
+          })
+        } catch (error) {
+          return response.badRequest(error.messages)
+        }
+    
+        if (request.ip() === '192.168.43.126') {
+          const fetchResponse = await fetch('http://192.168.43.230:1030/api/search/producto', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${Tok}`,
+            },
+            body: JSON.stringify({
+              Nombre: request.input('Nombre'),
+              Stock: request.input('Stock'),
+              Precio: request.input('Precio'),
+              Marca: request.input('Marca'),
+            }),
+          })
+    
+          if (!fetchResponse.ok) {
+            return response.notFound(fetchResponse.statusText)
+          }
+        }
+    
+        const provedor = await Provedor.find(request.input('Marca'))
+    
+        if (!provedor) {
+          return response.badRequest('Provedor no encontrado')
+        }
+    
+        const producto = new Producto()
+    
+        producto.Nombre = request.input('Nombre')
+        producto.Stock = request.input('Stock')
+        producto.Precio = request.input('Precio')
+        producto.Marca = request.input('Marca')
+        producto.Status = 1
+    
+        await producto.save()
+    
+        return response.created({
+          Status: 201,
+          Msg: 'Los datos se insertaron de forma exitosa',
+          Data: producto,
+        })
+      }
+
+
+      public async InsertarCompras({ request, response }: HttpContextContract, Tok: string = '') {
+        const validationSchema = schema.create({
+          Cliente: schema.number(),
+          Producto: schema.number(),
+          Cantidad: schema.number(),
+          Empleado: schema.number(),
+        })
+    
+        try {
+          await request.validate({
+            schema: validationSchema,
+          })
+        } catch (error) {
+          return response.badRequest(error.messages)
+        }
+    
+        if (request.ip() === '192.168.43.126') {
+          const response = await fetch('http://192.168.43.230:1030/api/search/compra', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${Tok}`,
+            },
+            body: JSON.stringify({
+              Cliente: request.input('Cliente'),
+              Producto: request.input('Producto'),
+              Cantidad: request.input('Cantidad'),
+              Empleado: request.input('Empleado'),
+            }),
+          })
+    
+          if (!response.ok) {
+            return response.notFound(response.statusText)
+          }
+        }
+    
+        const Cliente = await Database.from('clientes').where('id', request.input('Cliente')).first()
+        if (!Cliente) {
+          return response.notFound('Cliente no encontrado')
+        }
+    
+        const Producto = await Database.from('productos').where('id', request.input('Producto')).first()
+        if (!Producto) {
+          return response.notFound('Producto no encontrado')
+        }
+    
+        const Empleado = await Database.from('empleados').where('id', request.input('Empleado')).first()
+        if (!Empleado) {
+          return response.notFound('Empleado no encontrado')
+        }
+    
+        const monto = Producto.precio * request.input('Cantidad')
+    
+        await Database.table('compras').insert({
+          Cliente: request.input('Cliente'),
+          Producto: request.input('Producto'),
+          Cantidad: request.input('Cantidad'),
+          MontoTotal: monto,
+          Empleado: request.input('Empleado'),
+        })
+    
+        const Compras = await Database.from('compras')
+          .where('Cliente', request.input('Cliente'))
+          .where('Producto', request.input('Producto'))
+          .where('Cantidad', request.input('Cantidad'))
+          .where('MontoTotal', monto)
+          .where('Empleado', request.input('Empleado'))
+          .first()
+    
+        return response.created({
+          Status: 201,
+          Msg: 'Los datos se insertaron de forma exitosa',
+          Data: Compras,
+        })
+      }
+
+    
+      
     
 }
