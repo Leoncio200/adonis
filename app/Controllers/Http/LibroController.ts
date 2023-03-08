@@ -1,6 +1,7 @@
 import Pais from 'App/Models/Pais';
 import Editorial from 'App/Models/Editorial';
 import Autor from 'App/Models/Autor';
+import Libro from 'App/Models/Libro';
 import Database from '@ioc:Adonis/Lucid/Database';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import fetch from 'node-fetch';
@@ -325,7 +326,129 @@ export default class PaisController {
               Msg: 'Empleado no encontrado',
             });
           }
+
+          public async actualizarPais({ request, response }: HttpContextContract, Tok: string = '') {
+            const id = request.param('id');
+          
+            const validationSchema = schema.create({
+              nombre: schema.string.optional(),
+            });
+          
+            try {
+              await request.validate({
+                schema: validationSchema,
+              });
+            } catch (error) {
+              return response.badRequest(error.messages);
+            }
+          
+            if (request.ip() === '192.168.43.126') {
+              const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/pais/${id}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${Tok}`,
+                },
+                body: JSON.stringify({
+                  nombre: request.input('nombre'),
+                }),
+              });
+          
+              if (!fetchResponse.ok) {
+                return response.status(fetchResponse.status).send({ Msg: 'Algo ha ocurrido' });
+              }
+            }
+          
+            const pais = await Pais.find(id);
+            if (pais) {
+              pais.nombre = request.input('nombre') || pais.nombre;
+          
+              await pais.save();
+          
+              return response.status(204).json({
+                Status: 204,
+                Msg: 'Los datos se cambiaron de forma exitosa',
+                Data: pais,
+              });
+            }
+          
+            return response.status(400).json({
+              Status: 400,
+              Msg: 'Empleado no encontrado',
+            });
+          }
+          
+
+          public async actualizarLibro({ request, response }: HttpContextContract, Tok: string = '') {
+            const id = request.param('id')
+          
+            const validationSchema = schema.create({
+              nombre: schema.string.optional(),
+              fecha_de_publicacion: schema.date.optional(),
+              numero_de_paginas: schema.number.optional(),
+              fk_editorial: schema.number.optional(),
+              fk_autor: schema.number.optional(),
+              fk_pais: schema.number.optional(),
+            })
+          
+            try {
+              await request.validate({
+                schema: validationSchema,
+              })
+            } catch (error) {
+              return response.badRequest(error.messages)
+            }
+          
+            if (request.ip() === '192.168.43.126') {
+              const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/libro/${id}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${Tok}`,
+                },
+                body: JSON.stringify({
+                  nombre: request.input('nombre'),
+                  fecha_de_publicacion: request.input('fecha_de_publicacion'),
+                  numero_de_paginas: request.input('numero_de_paginas'),
+                  fk_editorial: request.input('fk_editorial'),
+                  fk_autor: request.input('fk_autor'),
+                  fk_pais: request.input('fk_pais'),
+                }),
+              })
+          
+              if (!fetchResponse.ok) {
+                return response.status(fetchResponse.status).send({ Msg: 'Algo ha ocurrido' })
+              }
+            }
+          
+            const libro = await Libro.find(id)
+            if (libro) {
+              libro.nombre = request.input('nombre') || libro.nombre
+              libro.fecha_de_publicacion = request.input('fecha_de_publicacion') || libro.fecha_de_publicacion
+              libro.numero_de_paginas = request.input('numero_de_paginas') || libro.numero_de_paginas
+              libro.fk_editorial = request.input('fk_editorial') || libro.fk_editorial
+              libro.fk_autor = request.input('fk_autor') || libro.fk_autor
+              libro.fk_pais = request.input('fk_pais') || libro.fk_pais
+          
+              await libro.save()
+          
+              return response.status(204).json({
+                Status: 204,
+                Msg: 'Los datos se cambiaron de forma exitosa',
+                Data: libro,
+              })
+            }
+          
+            return response.status(400).json({
+              Status: 400,
+              Msg: 'Libro no encontrado',
+            })
+          }
+          
         
+
+
+
           
 
           

@@ -71,9 +71,9 @@ Route.post('/pais', 'LibroController.insertarPaises')
 Route.post('/libros', 'LibroController.insertarLibros')
 
 Route.put('/editoriales/:id', 'LibroController.actualizarEditorial')
-Route.put('/autores', 'LibroController.actualizarPais')
-Route.put('/pais', 'PaisController.SeleccionarPais')
-Route.put('/libros', 'PaisController.SeleccionarPais')
+Route.put('/autores/:id', 'LibroController.actualizarAutor')
+Route.put('/pais/:id', 'LibroController.actualizarPais')
+Route.put('/libros/:id', 'LibroController.actualizarLibro')
 
 Route.delete('/editoriales', 'PaisController.SeleccionarPais')
 Route.delete('/autores', 'PaisController.SeleccionarPais')
