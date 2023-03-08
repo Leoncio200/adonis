@@ -32,7 +32,7 @@ Route.delete('/logout', 'LoginController.SeleccionarPais')
 Route.post('/rol', 'LoginController.SeleccionarPais')
 
 
-Route.get('/roles', 'PaisController.SeleccionarPais')
+Route.get('/roles', 'LoginController.Login')//
 
 Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios')//
 Route.put('/users/:id', 'PaisController.SeleccionarPais')
