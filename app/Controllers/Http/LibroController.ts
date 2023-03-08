@@ -6,7 +6,6 @@ import Database from '@ioc:Adonis/Lucid/Database';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import fetch from 'node-fetch';
 import { schema } from '@ioc:Adonis/Core/Validator';
-import Validator from 'Validator';
 'use strict'
 
 export default class PaisController {
@@ -25,7 +24,7 @@ export default class PaisController {
         return response.json(autores)
       }
 
-      public async mostrarLibros({ response }: HttpContextContract) {
+      public async mostrarLibros({ }: HttpContextContract) {
         const infoLibros = await Database
         .query()
         .select('libros.id', 'libros.status', 'libros.nombre', 'libros.fecha_de_publicacion', 'libros.numero_de_paginas', 'editoriales.nombre AS fk_editorial', 'autores.nombre AS fk_autor', 'paises.nombre AS fk_pais')
@@ -224,7 +223,7 @@ export default class PaisController {
             })
           }
 
-          public async actualizarEditorial({ request, response }: HttpContextContract, Tok: string = ' ') {
+          public async actualizarEditorial({ request, response }: HttpContextContract, Tok: string = '') {
             const id = request.param('id')
         
             const validationSchema = schema.create({
@@ -240,7 +239,6 @@ export default class PaisController {
             }
         
             if (request.ip() === '192.168.43.126') {
-              const Tok = request.input('Tok')
               const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/editoriales/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -464,6 +462,162 @@ export default class PaisController {
             const libro = await Libro.findOrFail(params.id)
             return libro
             }
+
+
+
+
+
+
+
+            public async eliminarEditorial({ request, response, params }: HttpContextContract, Tok: string = '') {
+                const { editorial } = params;
+                console.log("editorial: ", editorial);
+              
+                if (request.ip() === '192.168.43.126') {
+              
+                  const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/editoriales/${editorial}`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${Tok}`,
+                    },
+                  });
+                
+                  if (!fetchResponse.ok) {
+                    return response.status(fetchResponse.status).send({ Msg: 'Algo ha ocurrido' });
+                  }
+                }
+                
+                const editorialModel = await Editorial.find(editorial);
+                
+                if (editorialModel) {
+                  editorialModel.status = 0;
+                  await editorialModel.save();
+                
+                  return response.status(204).json({
+                    Status: 204,
+                    Msg: 'Los datos se cambiaron de forma exitosa',
+                    Data: editorialModel,
+                  });
+                }
+                
+                return response.status(400).json({
+                  Status: 400,
+                  Msg: 'Editorial no encontrada',
+                });
+              }
+
+
+              public async eliminarAutor({ request, response, params }: HttpContextContract, Tok: string = '') {
+                const { autor } = params
+                console.log('autor:', autor)
+            
+                if (request.ip() === '192.168.43.126') {
+                  const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/autor/${autor}`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${Tok}`,
+                    },
+                  })
+            
+                  if (!fetchResponse.ok) {
+                    return response.status(fetchResponse.status).send({ Msg: 'Algo ha ocurrido' })
+                  }
+                }
+            
+                const autorModel = await Autor.find(autor)
+            
+                if (autorModel) {
+                  autorModel.status = 0
+                  await autorModel.save()
+            
+                  return response.status(204).json({
+                    Status: 204,
+                    Msg: 'Los datos se cambiaron de forma exitosa',
+                    Data: autorModel,
+                  })
+                }
+            
+                return response.status(400).json({
+                  Status: 400,
+                  Msg: 'Autor no encontrado',
+                })
+              }
+
+              public async eliminarPais({ request, response, params }: HttpContextContract, Tok: string = '') {
+                const { pais } = params
+            
+                if (request.ip() === '192.168.43.126') {
+                  const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/pais/${pais}`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${Tok}`,
+                    },
+                  })
+            
+                  if (!fetchResponse.ok) {
+                    return response.status(fetchResponse.status).send({ Msg: 'Algo ha ocurrido' })
+                  }
+                }
+            
+                const paisModel = await Pais.find(pais)
+            
+                if (paisModel) {
+                  paisModel.status = 0
+                  await paisModel.save()
+            
+                  return response.status(204).json({
+                    Status: 204,
+                    Msg: 'Los datos se cambiaron de forma exitosa',
+                    Data: paisModel,
+                  })
+                }
+            
+                return response.status(400).json({
+                  Status: 400,
+                  Msg: 'País no encontrado',
+                })
+              }
+
+              public async eliminarLibro({ request, response, params }: HttpContextContract, Tok: string = '') {
+                const { libro } = params;
+                console.log("libro: ", libro);
+              
+                if (request.ip() === '192.168.43.126') {
+              
+                  const fetchResponse = await fetch(`http://192.168.43.230:1030/api/search/libro/${libro}`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${Tok}`,
+                    },
+                  });
+              
+                  if (!fetchResponse.ok) {
+                    return response.status(fetchResponse.status).send({ Msg: 'Algo ha ocurrido' });
+                  }
+                }
+              
+                const libroModel = await Libro.find(libro);
+              
+                if (libroModel) {
+                  libroModel.status = 0;
+                  await libroModel.save();
+              
+                  return response.status(204).json({
+                    Status: 204,
+                    Msg: 'Los datos se cambiaron de forma exitosa',
+                    Data: libroModel,
+                  });
+                }
+              
+                return response.status(400).json({
+                  Status: 400,
+                  Msg: 'Libro no encontrado',
+                });
+              }
         
 
 

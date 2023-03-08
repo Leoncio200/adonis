@@ -60,32 +60,32 @@ Route.delete('/provedor/:id', 'PaisController.SeleccionarPais')
 Route.delete('/empleado/:id', 'PaisController.SeleccionarPais')
 
 
-Route.get('/editoriales', 'LibroController.mostrarEditoriales')
-Route.get('/autores', 'LibroController.mostrarAutores')
-Route.get('/pais', 'LibroController.mostrarPaises')
-Route.get('/libros', 'LibroController.mostrarLibros')
+Route.get('/editoriales', 'LibroController.mostrarEditoriales')//
+Route.get('/autores', 'LibroController.mostrarAutores')//
+Route.get('/pais', 'LibroController.mostrarPaises')//
+Route.get('/libros', 'LibroController.mostrarLibros')//
 
-Route.post('/editoriales', 'LibroController.insertarEditoriales')
-Route.post('/autores', 'LibroController.insertarAutores')
-Route.post('/pais', 'LibroController.insertarPaises')
-Route.post('/libros', 'LibroController.insertarLibros')
-
-
-
-Route.get('/editoriales/UP/:id', 'LibroController.editEditorial')
-Route.put('/editoriales/:id', 'LibroController.actualizarEditorial')
-
-Route.get('/autores/UP/:id', 'LibroController.editAutor')
-Route.put('/autores/:id', 'LibroController.actualizarAutor')
-
-Route.get('/pais/UP/:id', 'LibroController.editPais')
-Route.put('/pais/:id', 'LibroController.actualizarPais')
-
-Route.get('/libros/UP/:id', 'LibroController.editLibro')
-Route.put('/libros/:id', 'LibroController.actualizarLibro')
+Route.post('/editoriales', 'LibroController.insertarEditoriales')//
+Route.post('/autores', 'LibroController.insertarAutores')//
+Route.post('/pais', 'LibroController.insertarPaises')//
+Route.post('/libros', 'LibroController.insertarLibros')//
 
 
-Route.delete('/editoriales', 'PaisController.SeleccionarPais')
-Route.delete('/autores', 'PaisController.SeleccionarPais')
-Route.delete('/pais', 'PaisController.SeleccionarPais')
-Route.delete('/libros', 'PaisController.SeleccionarPais')
+
+Route.get('/editoriales/UP/:id', 'LibroController.editEditorial')//
+Route.put('/editoriales/:id', 'LibroController.actualizarEditorial')//
+
+Route.get('/autores/UP/:id', 'LibroController.editAutor')//
+Route.put('/autores/:id', 'LibroController.actualizarAutor')//
+
+Route.get('/pais/UP/:id', 'LibroController.editPais')//
+Route.put('/pais/:id', 'LibroController.actualizarPais')//
+
+Route.get('/libros/UP/:id', 'LibroController.editLibro')//
+Route.put('/libros/:id', 'LibroController.actualizarLibro')//
+
+
+Route.delete('/editoriales/:editorial', 'LibroController.eliminarEditorial')//
+Route.delete('/autores/:autor', 'LibroController.eliminarAutor')//
+Route.delete('/pais/:pais', 'LibroController.eliminarPais')//
+Route.delete('/libros/:libro', 'LibroController.eliminarLibro')//
