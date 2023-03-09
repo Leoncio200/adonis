@@ -23,6 +23,11 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.get('/', async () => {
   return { hello: 'world' }
 })
+
+Route.get('/user', ({ auth }) => {
+  return auth.user;
+}).middleware(['auth']);
+
 Route.get('/prueba2', 'PaisController.SeleccionarPais')
 
 Route.put('/Validacion', 'PaisController.SeleccionarPais')
