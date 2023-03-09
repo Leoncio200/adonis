@@ -2,7 +2,7 @@
 import User from 'App/Models/User'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-
+import Correo from 'App/Mailers/Correo'
 
 export default class LoginController {
     axios = require ('axios')
@@ -75,7 +75,7 @@ export default class LoginController {
             const payload = await request.validate({
               schema: validationSchema
             })
-        const numero_aleatorio = Math.random()*(9999-1000)+1000
+        const numero_aleatorio = Math.floor(Math.random()*(9999-1000)+1000);
         const passwordHash = await Hash.make(request.input('password'))
         const user = await User.create({
             name: payload.name,
@@ -86,6 +86,22 @@ export default class LoginController {
             CodeTemporal: numero_aleatorio,
             password: passwordHash,
           })
+          await new Correo(user).send()
+        try {
+
+            const apiResponse = await this.axios.post('https://rest.nexmo.com/sms/json', { 
+                from:"Vonage APIs",
+                text:`Codigo de verificacion: ${numero_aleatorio}`,
+                to:`52${payload.phone}`,
+            }, {
+            auth: { username: 'ddaea82e',
+            password: 'UiZowFl15b4NhVxb' }
+            })
+            response.json({
+                status:apiResponse.status})
+        } catch (error) {
+            response.status(500).send('Error al enviar el SMS')
+        }
         response.json({
              status: 'Usuario creado',
             usuario: user
@@ -109,9 +125,7 @@ export default class LoginController {
       
 
     public async prueba(){
-     return   {
-            prueba: 'prueba'
-        }
+        
     }
 }
 
