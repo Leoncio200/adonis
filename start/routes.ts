@@ -31,7 +31,7 @@ Route.get('/api/user', ({ auth }) => {
 Route.get('/prueba2', 'PaisController.SeleccionarPais')
 
 
-Route.put('/Validacion', 'PaisController.SeleccionarPais')
+Route.put('/Validacion', 'LoginController.Validacion').as('validacion')
 Route.post('/api/user', 'LoginController.user')//
 Route.post('/api/login', 'LoginController.Login')//
 Route.delete('/api/logout', 'LoginController.Logout').middleware(['auth', 'status'])//

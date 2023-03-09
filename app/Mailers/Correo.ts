@@ -1,6 +1,7 @@
 import { BaseMailer, MessageContract } from '@ioc:Adonis/Addons/Mail'
 //import View from '@ioc:Adonis/Core/View'
 import  User  from 'App/Models/User'
+import Route from '@ioc:Adonis/Core/Route'
 export default class Correo extends BaseMailer {
   constructor (private user: User) {
     super()
@@ -28,7 +29,9 @@ export default class Correo extends BaseMailer {
     .to(this.user.email)
     .htmlView('emails/welcome', {
       user: { fullName: `${this.user.name}` },
-      url: 'https://your-app.com/verification-url',
+      url: `http://192.168.125.235:3333${Route.makeSignedUrl('validacion',{
+        user:`${this.user.id}`
+      })}`,
     })
   }
 }
