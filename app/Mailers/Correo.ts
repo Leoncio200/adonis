@@ -18,20 +18,17 @@ export default class Correo extends BaseMailer {
   /**
    * The prepare method is invoked automatically when you run
    * "Correo.send".
-   *
+   *http://192.168.125.235:3333${Route.makeSignedUrl('validacion',{
+        user:`1`
+      })}
    * Use this method to prepare the email message. The method can
    * also be async.
    */
   public prepare(message: MessageContract) {
     message
-    .subject('The email subject')
+    .subject('Validacion')
     .from('leonciopimentelperez@gmail.com')
     .to(this.user.email)
-    .htmlView('emails/welcome', {
-      user: { fullName: `${this.user.name}` },
-      url: `http://192.168.125.235:3333${Route.makeSignedUrl('validacion',{
-        user:`${this.user.id}`
-      })}`,
-    })
+    .html(`<h1> Welcome ${this.user.name} </h1><p><a href="http://192.168.125.235:3333${Route.makeSignedUrl('validacion',{user:this.user.id})}">Click here</a> to verify your email address.</p>`)
   }
 }

@@ -124,8 +124,22 @@ export default class LoginController {
 
       
 
-    public async prueba(){
-        
+    public async Validacion({ request }){
+      const { Correo, Verificacion } = request.all();
+      if (request.hasValidSignature()) {
+      const user = User.findByOrFail('email', Correo);
+      if ((await user).CodeTemporal == Verificacion){
+        (await user).active = 1
+      ;(await user).save
+      }
+       else{
+        return response.json({
+          status: 'Sesion cerrada'
+      })
+       }
+      }        
+      return 'Signature is missing or URL was tampered.'
+
     }
 }
 

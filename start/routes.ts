@@ -28,7 +28,7 @@ Route.get('/api/user', ({ auth }) => {
   return auth.user;
 }).middleware(['auth']);
 
-Route.get('/prueba2', 'PaisController.SeleccionarPais')
+Route.get('/prueba2', 'LoginController.prueba')
 
 
 
