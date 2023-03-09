@@ -24,11 +24,12 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.get('/user', ({ auth }) => {
+Route.get('/api/user', ({ auth }) => {
   return auth.user;
 }).middleware(['auth']);
 
 Route.get('/prueba2', 'PaisController.SeleccionarPais')
+
 
 Route.put('/Validacion', 'PaisController.SeleccionarPais')
 Route.post('/api/user', 'LoginController.user')//
