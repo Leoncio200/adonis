@@ -41,8 +41,8 @@ Route.delete('/users/:id', 'PaisController.SeleccionarPais')
 Route.post('/cliente', 'InsertarController.insertarClientes')//
 Route.post('/provedor', 'InsertarController.insertarProvedores')//
 Route.post('/empleado', 'InsertarController.insertarEmpleados')//
-Route.post('/producto', 'InsertarController.insertarProductos')
-Route.post('/compra', 'InsertarController.InsertarCompras')
+Route.post('/producto', 'InsertarController.insertarProductos')//
+Route.post('/compra', 'InsertarController.insertarCompras')//
 
 Route.get('/cliente/:id?', 'SeleccionarController.SeleccionarCliente')//
 Route.get('/provedor/:id?', 'SeleccionarController.SeleccionarProvedor')//

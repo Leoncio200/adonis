@@ -15,7 +15,7 @@ export default class Compra extends BaseModel {
   @column()
   public Cantidad: number
 
-  @column()
+  @column({columnName: 'MontoTotal'})
   public MontoTotal: number
 
   @column()

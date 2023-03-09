@@ -7,6 +7,7 @@ import Cliente from 'App/Models/Cliente';
 import Provedor from 'App/Models/Provedor';
 import Empleado from 'App/Models/Empleado';
 import Producto from 'App/Models/Producto';
+import Compra from 'App/Models/Compra';
 
 
 
@@ -295,7 +296,7 @@ export default class InsertarController {
       }
 
 
-      public async InsertarCompras({ request, response }: HttpContextContract, Tok: string = '') {
+      public async insertarCompras({ request, response }: HttpContextContract, Tok: string = '') {
         const validationSchema = schema.create({
           Cliente: schema.number(),
           Producto: schema.number(),
@@ -311,8 +312,8 @@ export default class InsertarController {
           return response.badRequest(error.messages)
         }
     
-        if (request.ip() === '192.168.43.126') {
-          const response = await fetch('http://192.168.43.230:1030/api/search/compra', {
+        if (request.ip() == '192.168.43.126') {
+          const apiResponse = await fetch('http://192.168.43.230:1030/api/search/compra', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -326,51 +327,58 @@ export default class InsertarController {
             }),
           })
     
-          if (!response.ok) {
-            return response.notFound(response.statusText)
+          if (!apiResponse.ok) {
+            return response.status(apiResponse.status).json({
+              Status: apiResponse.status,
+              Msg: 'Inserción fallida',
+            })
           }
         }
     
-        const Cliente = await Database.from('clientes').where('id', request.input('Cliente')).first()
-        if (!Cliente) {
-          return response.notFound('Cliente no encontrado')
+        const ClienteInstance = await Cliente.find(request.input('Cliente'))
+        if (!ClienteInstance) {
+          return response.status(400).json({
+            Status: 400,
+            Msg: 'Cliente no encontrado',
+          })
         }
     
-        const Producto = await Database.from('productos').where('id', request.input('Producto')).first()
-        if (!Producto) {
-          return response.notFound('Producto no encontrado')
+        const ProductoInstance = await Producto.find(request.input('Producto'))
+        if (!ProductoInstance) {
+          return response.status(400).json({
+            Status: 400,
+            Msg: 'Producto no encontrado',
+          })
         }
+
+        
     
-        const Empleado = await Database.from('empleados').where('id', request.input('Empleado')).first()
-        if (!Empleado) {
-          return response.notFound('Empleado no encontrado')
+        const EmpleadoInstance = await Empleado.find(request.input('Empleado'))
+        if (!EmpleadoInstance) {
+          return response.status(400).json({
+            Status: 400,
+            Msg: 'Empleado no encontrado',
+          })
         }
+
+        
+
     
-        const monto = Producto.precio * request.input('Cantidad')
-    
-        await Database.table('compras').insert({
-          Cliente: request.input('Cliente'),
-          Producto: request.input('Producto'),
-          Cantidad: request.input('Cantidad'),
-          MontoTotal: monto,
-          Empleado: request.input('Empleado'),
-        })
-    
-        const Compras = await Database.from('compras')
-          .where('Cliente', request.input('Cliente'))
-          .where('Producto', request.input('Producto'))
-          .where('Cantidad', request.input('Cantidad'))
-          .where('MontoTotal', monto)
-          .where('Empleado', request.input('Empleado'))
-          .first()
+        const MontoTotal = request.input('Cantidad') * 2
+        const ComprasInstance = new Compra()
+        ComprasInstance.Cliente = request.input('Cliente')
+        ComprasInstance.Producto = request.input('Producto')
+        ComprasInstance.Cantidad = request.input('Cantidad')
+        ComprasInstance.MontoTotal = MontoTotal
+        ComprasInstance.Empleado = request.input('Empleado')
+        await ComprasInstance.save()
     
         return response.created({
           Status: 201,
           Msg: 'Los datos se insertaron de forma exitosa',
-          Data: Compras,
+          Data: ComprasInstance,
         })
       }
-
     
       
     
