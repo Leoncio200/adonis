@@ -1,13 +1,15 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-export default class Rol {
-  public async handle({auth, response}: HttpContextContract, next: () => Promise<void>, allowedRoles: number[]) {
-    let uth = auth.use('api').user
-    let user = await User.find(uth?.id)
-    if (!user?.hasRole(...allowedRoles)) {
-      return response.status(400).send({ error: "No tienes permisos para realizar esta acción"})
+
+export default class RolMiddleware {
+  public async handle ({ auth, response }: HttpContextContract, next: () => Promise<void>, ...roles: string[]) {
+    const user = await auth.authenticate()
+    const rolesAsNumbers = roles.map(role => parseInt(role))
+    const foundUser = await User.find(user?.id)
+
+    if (!foundUser || !(await foundUser.hasRole(...rolesAsNumbers))) {
+      return response.status(400).send('Permiso Denegado')
     }
-    return response.status(400).send({ error: allowedRoles})
 
     await next()
   }

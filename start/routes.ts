@@ -38,7 +38,7 @@ Route.delete('/logout', 'LoginController.Logout').middleware(['auth', 'status'])
 
 Route.get('/roles', 'LoginController.Login')//
 
-Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios')//
+Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios').middleware('auth:api').middleware('Rol:1')
 
 Route.get('/usuario/UP/:id', 'CambiarController.editUsuario')//
 Route.put('/usuario/:id?', 'CambiarController.CambiarUsuario')//
