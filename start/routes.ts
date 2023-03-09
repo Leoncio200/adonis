@@ -31,12 +31,15 @@ Route.get('/user', ({ auth }) => {
 Route.get('/prueba2', 'PaisController.SeleccionarPais')
 
 Route.put('/Validacion', 'PaisController.SeleccionarPais')
-Route.post('/user', 'LoginController.user')//
-Route.post('/login', 'LoginController.Login')//
-Route.delete('/logout', 'LoginController.Logout').middleware(['auth', 'status'])
+Route.post('/api/user', 'LoginController.user')//
+Route.post('/api/login', 'LoginController.Login')//
+Route.delete('/api/logout', 'LoginController.Logout').middleware(['auth', 'status'])//
 
 
 Route.group(() => {
+
+  Route.get('/roles','SeleccionarController.SeleccionarRoles').middleware(['Rol:1,2']);    
+
   Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios').middleware(['Rol:1'])
 
 
