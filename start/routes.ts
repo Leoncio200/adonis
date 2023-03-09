@@ -35,7 +35,7 @@ Route.post('/rol', 'LoginController.SeleccionarPais')
 Route.get('/roles', 'LoginController.Login')//
 
 Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios')//
-Route.put('/users/:id', 'PaisController.SeleccionarPais')
+Route.put('/usuario/:id?', 'CambiarController.CambiarUsuario')//
 Route.delete('/users/:id', 'PaisController.SeleccionarPais')
 
 Route.post('/cliente', 'InsertarController.insertarClientes')//
@@ -50,10 +50,18 @@ Route.get('/empleado/:id?', 'SeleccionarController.SeleccionarEmpleado')//
 Route.get('/producto/:id?', 'SeleccionarController.SeleccionarProducto')//
 Route.get('/compra/:id?', 'SeleccionarController.SeleccionarCompra')//
 
-Route.put('/cliente/:id', 'PaisController.SeleccionarPais')
-Route.put('/provedor/:id', 'PaisController.SeleccionarPais')
-Route.put('/empleado/:id', 'PaisController.SeleccionarPais')
-Route.put('/producto/:id', 'PaisController.SeleccionarPais')
+
+Route.get('/cliente/UP/:id', 'CambiarController.editCliente')//
+Route.put('/cliente/:id', 'CambiarController.CambiarCliente')//
+
+Route.get('/provedor/UP/:id', 'CambiarController.editProvedor')//
+Route.put('/producto/:id', 'CambiarController.CambiarProducto')//
+
+Route.get('/empleado/UP/:id', 'CambiarController.editEmpleado')//
+Route.put('/empleado/:id', 'CambiarController.CambiarEmpleado')//
+
+Route.get('/producto/UP/:id', 'CambiarController.editProducto')//
+Route.put('/provedor/:id', 'CambiarController.CambiarProvedor')//
 
 Route.delete('/cliente/:id', 'PaisController.SeleccionarPais')
 Route.delete('/provedor/:id', 'PaisController.SeleccionarPais')
