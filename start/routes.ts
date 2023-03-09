@@ -36,78 +36,85 @@ Route.post('/login', 'LoginController.Login')//
 Route.delete('/logout', 'LoginController.Logout').middleware(['auth', 'status'])
 
 
-Route.get('/roles', 'LoginController.Login')//
-
-Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios').middleware('auth:api').middleware('Rol:1')
-
-Route.get('/usuario/UP/:id', 'CambiarController.editUsuario')//
-Route.put('/usuario/:id?', 'CambiarController.CambiarUsuario')//
-
-Route.delete('/usuario/:id', 'BorrarController.borrarUsuario')//
+Route.group(() => {
+  Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios').middleware(['Rol:1'])
 
 
+Route.get('/usuario/UP/:id', 'CambiarController.editUsuario').middleware('Rol:1')
+Route.put('/usuario/:id', 'CambiarController.CambiarUsuario').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
-Route.post('/cliente', 'InsertarController.insertarClientes')//
-Route.post('/provedor', 'InsertarController.insertarProvedores')//
-Route.post('/empleado', 'InsertarController.insertarEmpleados')//
-Route.post('/producto', 'InsertarController.insertarProductos')//
-Route.post('/compra', 'InsertarController.insertarCompras')//
+Route.delete('/usuario/:id', 'BorrarController.borrarUsuario').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
-Route.get('/cliente/:id?', 'SeleccionarController.SeleccionarCliente')//
-Route.get('/provedor/:id?', 'SeleccionarController.SeleccionarProvedor')//
-Route.get('/empleado/:id?', 'SeleccionarController.SeleccionarEmpleado')//
-Route.get('/producto/:id?', 'SeleccionarController.SeleccionarProducto')//
-Route.get('/compra/:id?', 'SeleccionarController.SeleccionarCompra')//
+
+
+
+
+Route.post('/cliente', 'InsertarController.insertarClientes').middleware(['Rol:1']);
+Route.post('/provedor', 'InsertarController.insertarProvedores').middleware(['Rol:1']);
+Route.post('/empleado', 'InsertarController.insertarEmpleados').middleware(['Rol:1']);
+Route.post('/producto', 'InsertarController.insertarProductos').middleware(['Rol:1']);
+Route.post('/compra', 'InsertarController.insertarCompras').middleware(['Rol:1']);
+
+Route.get('/cliente/:id?', 'SeleccionarController.SeleccionarCliente').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
+Route.get('/provedor/:id?', 'SeleccionarController.SeleccionarProvedor').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
+Route.get('/empleado/:id?', 'SeleccionarController.SeleccionarEmpleado').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
+Route.get('/producto/:id?', 'SeleccionarController.SeleccionarProducto').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
+Route.get('/compra/:id?', 'SeleccionarController.SeleccionarCompra').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
 
 
 Route.get('/cliente/UP/:id', 'CambiarController.editCliente')//
-Route.put('/cliente/:id', 'CambiarController.CambiarCliente')//
+Route.put('/cliente/:id', 'CambiarController.CambiarCliente').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
 Route.get('/provedor/UP/:id', 'CambiarController.editProvedor')//
-Route.put('/producto/:id', 'CambiarController.CambiarProducto')//
+Route.put('/producto/:id', 'CambiarController.CambiarProducto').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
 Route.get('/empleado/UP/:id', 'CambiarController.editEmpleado')//
-Route.put('/empleado/:id', 'CambiarController.CambiarEmpleado')//
+Route.put('/empleado/:id', 'CambiarController.CambiarEmpleado').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
 Route.get('/producto/UP/:id', 'CambiarController.editProducto')//
-Route.put('/provedor/:id', 'CambiarController.CambiarProvedor')//
+Route.put('/provedor/:id', 'CambiarController.CambiarProvedor').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
-Route.delete('/cliente/:id', 'BorrarController.borrarCliente')//
-Route.delete('/provedor/:id', 'BorrarController.borrarProvedor')//
-Route.delete('/empleado/:id', 'BorrarController.borrarEmpleado')//
-
-
+Route.delete('/cliente/:id', 'BorrarController.borrarCliente').where('id', /^[0-9]+$/).middleware(['Rol:1,']);
+Route.delete('/provedor/:id', 'BorrarController.borrarProvedor').where('id', /^[0-9]+$/).middleware(['Rol:1']);
+Route.delete('/empleado/:id', 'BorrarController.borrarEmpleado').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
 
 
 
 
-Route.get('/editoriales', 'LibroController.mostrarEditoriales')//
-Route.get('/autores', 'LibroController.mostrarAutores')//
-Route.get('/pais', 'LibroController.mostrarPaises')//
-Route.get('/libros', 'LibroController.mostrarLibros')//
 
-Route.post('/editoriales', 'LibroController.insertarEditoriales')//
-Route.post('/autores', 'LibroController.insertarAutores')//
-Route.post('/pais', 'LibroController.insertarPaises')//
-Route.post('/libros', 'LibroController.insertarLibros')//
+
+Route.get('/editoriales', 'LibroController.mostrarEditoriales').middleware(['Rol:1,3']);
+Route.get('/autores', 'LibroController.mostrarAutores').middleware(['Rol:1,3']);
+Route.get('/pais', 'LibroController.mostrarPaises').middleware(['Rol:1,3']);
+Route.get('/libros', 'LibroController.mostrarLibros').middleware(['Rol:1,3']);
+
+Route.post('/editoriales', 'LibroController.insertarEditoriales').middleware(['Rol:1']);
+Route.post('/autores', 'LibroController.insertarAutores').middleware(['Rol:1']);
+Route.post('/pais', 'LibroController.insertarPaises').middleware(['Rol:1']);
+Route.post('/libros', 'LibroController.insertarLibros').middleware(['Rol:1']);
 
 
 
 Route.get('/editoriales/UP/:id', 'LibroController.editEditorial')//
-Route.put('/editoriales/:id', 'LibroController.actualizarEditorial')//
+Route.put('/editoriales/:id', 'LibroController.actualizarEditorial').middleware(['Rol:1']);
 
 Route.get('/autores/UP/:id', 'LibroController.editAutor')//
-Route.put('/autores/:id', 'LibroController.actualizarAutor')//
+Route.put('/autores/:id', 'LibroController.actualizarAutor').middleware(['Rol:1']);
 
 Route.get('/pais/UP/:id', 'LibroController.editPais')//
-Route.put('/pais/:id', 'LibroController.actualizarPais')//
+Route.put('/pais/:id', 'LibroController.actualizarPais').middleware(['Rol:1']);
 
 Route.get('/libros/UP/:id', 'LibroController.editLibro')//
-Route.put('/libros/:id', 'LibroController.actualizarLibro')//
+Route.put('/libros/:id', 'LibroController.actualizarLibro').middleware(['Rol:1']);
 
 
-Route.delete('/editoriales/:editorial', 'LibroController.eliminarEditorial')//
-Route.delete('/autores/:autor', 'LibroController.eliminarAutor')//
-Route.delete('/pais/:pais', 'LibroController.eliminarPais')//
-Route.delete('/libros/:libro', 'LibroController.eliminarLibro')//
+Route.delete('/editoriales/:editorial', 'LibroController.eliminarEditorial').middleware(['Rol:1']);
+Route.delete('/autores/:autor', 'LibroController.eliminarAutor').middleware(['Rol:1']);
+Route.delete('/pais/:pais', 'LibroController.eliminarPais').middleware(['Rol:1']);
+Route.delete('/libros/:libro', 'LibroController.eliminarLibro').middleware(['Rol:1']);
+
+
+
+}).prefix('api/v2').middleware(['auth:api', 'status'])
+
