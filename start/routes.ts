@@ -55,7 +55,7 @@ Route.post('/empleado', 'InsertarController.insertarEmpleados').middleware(['Rol
 Route.post('/producto', 'InsertarController.insertarProductos').middleware(['Rol:1']);
 Route.post('/compra', 'InsertarController.insertarCompras').middleware(['Rol:1']);
 
-Route.get('/cliente/:id?', 'SeleccionarController.SeleccionarCliente').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
+Route.get('/cliente/:id?', 'SeleccionarController.SeleccionarCliente').middleware('Rol:1,2')
 Route.get('/provedor/:id?', 'SeleccionarController.SeleccionarProvedor').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
 Route.get('/empleado/:id?', 'SeleccionarController.SeleccionarEmpleado').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
 Route.get('/producto/:id?', 'SeleccionarController.SeleccionarProducto').where('id', /^[0-9]+$/).middleware(['Rol:1,2']);
