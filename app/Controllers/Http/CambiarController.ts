@@ -276,6 +276,17 @@ export default class CambiarController {
             }
             return producto
       }
+
+      public async editUsuario ({ params, response }: HttpContextContract){
+        const producto = await Database.from('users').where('id', params.id).first()
+        if (!producto) {
+            return response.status(404).json({
+                Status: 404,
+                Msg: "usuario no encontrado",
+            })
+            }
+            return producto
+      }
       
       
 
