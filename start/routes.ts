@@ -28,7 +28,7 @@ Route.get('/prueba2', 'PaisController.SeleccionarPais')
 Route.put('/Validacion', 'PaisController.SeleccionarPais')
 Route.post('/user', 'LoginController.user')
 Route.post('/login', 'LoginController.Login')
-Route.delete('/logout', 'LoginController.prueba').middleware('auth')
+Route.delete('/logout', 'LoginController.prueba').middleware(['auth', 'rol:1'])
 Route.post('/rol', 'LoginController.SeleccionarPais')
 
 

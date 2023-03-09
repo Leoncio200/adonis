@@ -18,7 +18,8 @@ export default class LoginController {
                 return response.json({
                     status: 200,
                     message: "Usuario logeado exitosamente",
-                    token: token.token
+                    token: token.token,
+                    user: token.user
                 })
                 } else {
                     return response.unauthorized('Usuario o contraseña incorrectos')
@@ -48,7 +49,7 @@ export default class LoginController {
     }
 
     public async prueba(){
-        {
+     return   {
             prueba: 'prueba'
         }
     }

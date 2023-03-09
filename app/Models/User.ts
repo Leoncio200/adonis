@@ -32,5 +32,8 @@ export default class User extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
+  public async hasRole(...roles: number[]): Promise<boolean> {
+    return roles.includes(this.rol_id)
+  }
   
 }//
