@@ -46,6 +46,12 @@ export default class LoginController {
             usuario: user
         })
     }
+
+    public async prueba(){
+        {
+            prueba: 'prueba'
+        }
+    }
 }
 
 
