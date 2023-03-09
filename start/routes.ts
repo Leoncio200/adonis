@@ -48,8 +48,7 @@ Route.group(() => {
 Route.get('/usuario/UP/:id', 'CambiarController.editUsuario').middleware('Rol:1')
 Route.put('/usuario/:id', 'CambiarController.CambiarUsuario').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
-Route.get('/usuario/:id?', 'SeleccionarController.SeleccionarUsuarios').middleware('auth:api').middleware('Rol:1')
-
+Route.delete('/usuario/:id', 'BorrarController.borrarUsuario').where('id', /^[0-9]+$/).middleware(['Rol:1']);
 
 
 
