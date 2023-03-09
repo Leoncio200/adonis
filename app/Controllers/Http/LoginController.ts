@@ -113,6 +113,8 @@ export default class LoginController {
         })
       }}
 
+
+      
       public async Logout({auth,response}){
         await auth.use('api').revoke()
         return response.json({

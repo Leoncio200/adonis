@@ -10,6 +10,7 @@
 */
 
 import Server from '@ioc:Adonis/Core/Server'
+import cors from '@ioc:Adonis/Core/Cors'
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,6 @@ Server.middleware.register([
 | Route.get('dashboard', 'UserController.dashboard').middleware('auth')
 |
 */
-
 
 
 
