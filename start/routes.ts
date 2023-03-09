@@ -26,8 +26,8 @@ Route.get('/', async () => {
 Route.get('/prueba2', 'PaisController.SeleccionarPais')
 
 Route.put('/Validacion', 'PaisController.SeleccionarPais')
-Route.post('/user', 'InsertarController.User')
-Route.post('/login', 'LoginController.SeleccionarPais')
+Route.post('/user', 'LoginController.user')
+Route.post('/login', 'LoginController.Login')
 Route.delete('/logout', 'LoginController.SeleccionarPais')
 Route.post('/rol', 'LoginController.SeleccionarPais')
 

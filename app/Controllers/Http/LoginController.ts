@@ -1,38 +1,51 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-
+import Hash from '@ioc:Adonis/Core/Hash'
 export default class LoginController {
     axios = require ('axios')
-    auth = require('@adonisjs/auth/src/Auth')
     telefono: any
     numero: any
-    public async Login({ request, response }){
+    public async Login({ auth, request, response }){
         const { email, password } = request.all();
         const user = await User.findBy('email', email)
         if (!user) {
             return response.unauthorized('usuario inexistente')
         }
+        const isPasswordValid = await Hash.verify(user.password, password) 
         try {
-            const token = await this.auth.use('api').attempt(user.email, user.password)
-            return token
+            if (isPasswordValid) {
+                const token = await auth.use('api').generate(user)
+                return response.json({
+                    status: 200,
+                    message: "Usuario logeado exitosamente",
+                    token: token.token
+                })
+                } else {
+                    return response.unauthorized('Usuario o contraseña incorrectos')
+                }
           } catch {
-            return response.unauthorized('Invalid credentials')
+            return response.unauthorized('a ocurrido un error')
           }
       
     }
     
     public async user({ request, response }){
-        const { name, email, password, phone } = request.all();
         const numero_aleatorio = Math.random()*(9999-1000)+1000
+        const passwordHash = await Hash.make(request.input('password'))
         const user = await User.create({
-            name: name,
-            email: email,
-            phone: phone,
+            name: request.input('name'),
+            email: request.input('email'),
+            phone: request.input('phone'),
             rol_id: 2,
             active: 0,
-            verification_code: numero_aleatorio,
-            password: password
-    })
+            CodeTemporal: numero_aleatorio,
+            password: passwordHash,
+          })
+        response.json({
+             status: 'Usuario creado',
+            usuario: user
+        })
+    }
 }
 
 

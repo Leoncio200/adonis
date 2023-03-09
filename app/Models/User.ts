@@ -23,7 +23,7 @@ export default class User extends BaseModel {
   @column()
   public active: number
 
-  @column()
+  @column({columnName: 'CodeTemporal'})
   public CodeTemporal: number
 
   @column.dateTime({ autoCreate: true })
@@ -31,4 +31,6 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  
 }//
