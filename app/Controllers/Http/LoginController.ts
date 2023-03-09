@@ -107,9 +107,9 @@ export default class LoginController {
             usuario: user
         })
     }catch (error) {
+      console.log(error.messages)
         response.badRequest({
           status: 'Error al crear usuario',
-          message: error.messages
         })
       }}
 
