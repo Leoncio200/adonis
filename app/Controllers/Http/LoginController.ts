@@ -124,22 +124,26 @@ export default class LoginController {
 
       
 
-    public async Validacion({ request }){
+    public async Validacion({ request, response }){
       const { Correo, Verificacion } = request.all();
       if (request.hasValidSignature()) {
       const user = User.findByOrFail('email', Correo);
       if ((await user).CodeTemporal == Verificacion){
-        (await user).active = 1
-      ;(await user).save
+        (await user).active = 1;
+        (await user).save();
+      return response.json({
+        message: 'Usuario verificado'
+      })
       }
        else{
         return response.json({
-          status: 'Sesion cerrada'
-      })
+          message: 'Usuario o contraseña incorrectos'
+        })
        }
-      }        
+      }   
+      else{     
       return 'Signature is missing or URL was tampered.'
-
+      }
     }
 }
 

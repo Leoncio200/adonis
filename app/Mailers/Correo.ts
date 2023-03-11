@@ -29,6 +29,6 @@ export default class Correo extends BaseMailer {
     .subject('Validacion')
     .from('leonciopimentelperez@gmail.com')
     .to(this.user.email)
-    .html(`<h1> Welcome ${this.user.name} </h1><p><a href="http://192.168.125.235:3333${Route.makeSignedUrl('validacion',{user:this.user.id})}">Click here</a> to verify your email address.</p>`)
+    .html(`<h1> Welcome ${this.user.name} </h1><p><a href="http://127.0.0.1:3333${Route.makeSignedUrl('validacion',{user:this.user.id})}">Click here</a> to verify your email address.</p>`)
   }
 }
