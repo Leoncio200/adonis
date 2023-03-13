@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('nombre', 60)
-      table.string('año_de_publicacion')
+      table.string('fecha_de_publicacion')
       table.string('numero_de_paginas')
       table.integer('fk_editorial').unsigned().references('id').inTable('editoriales')
       table.integer('fk_autor').unsigned().references('id').inTable('autores')
