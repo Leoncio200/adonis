@@ -94,8 +94,8 @@ export default class LoginController {
                 text:`Codigo de verificacion: ${numero_aleatorio}`,
                 to:`52${payload.phone}`,
             }, {
-            auth: { username: 'ddaea82e',
-            password: 'UiZowFl15b4NhVxb' }
+            auth: { username: '129f8e3e',
+            password: 'ipaqBEtiPDnHg9dS' }
             })
             response.json({
                 status:apiResponse.status})
