@@ -203,9 +203,13 @@ export default class SeleccionarController {
         })
       }
 
-      async mostrarAlumnos({ response }) {
-        const paises = await Alumno.all()
-        return response.json(paises)
+      public async mostrarAlumnos({}: HttpContextContract) {
+        const alumnos = await Database
+        .query()
+          .select('*')
+          .from('alumnos');
+        
+        return alumnos;
       }
       
       public async serverSentStream({ response }) {
@@ -226,5 +230,6 @@ export default class SeleccionarController {
         })
           
       }
+      
       
 }

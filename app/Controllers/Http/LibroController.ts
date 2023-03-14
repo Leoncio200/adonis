@@ -35,6 +35,7 @@ export default class PaisController {
       
       return infoLibros;
       }
+      
 
       public async insertarPaises({ request, response }: HttpContextContract, Tok: string = '') {
         const validationSchema = schema.create({
