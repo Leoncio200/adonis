@@ -8,6 +8,7 @@ import Provedor from 'App/Models/Provedor';
 import Empleado from 'App/Models/Empleado';
 import Producto from 'App/Models/Producto';
 import Compra from 'App/Models/Compra';
+import Alumno from 'App/Models/Alumno';
 
 
 
@@ -380,6 +381,35 @@ export default class InsertarController {
         })
       }
     
+
+      insertarAlumno({ request, response }: HttpContextContract) {
+        const validationSchema = schema.create({
+          nombre: schema.string(),
+          edad: schema.number(),
+          telefono: schema.number(),
+        })
+    
+        try {
+          request.validate({
+            schema: validationSchema,
+          })
+        } catch (error) {
+          return response.badRequest(error.messages)
+        }
+    
+        const alumno = new Alumno()
+        alumno.nombre = request.input('nombre')
+        alumno.edad = request.input('edad')
+        alumno.telefono = request.input('telefono')
+        alumno.Status = 1
+        alumno.save()
+    
+        return response.created({
+          Status: 201,
+          Msg: 'Los datos se insertaron de forma exitosa',
+          Data: alumno,
+        })
+      }
       
     
 }

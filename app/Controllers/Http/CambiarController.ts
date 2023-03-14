@@ -6,6 +6,7 @@ import User from 'App/Models/User';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema } from '@ioc:Adonis/Core/Validator';
 import Database from '@ioc:Adonis/Lucid/Database';
+import Alumno from 'App/Models/Alumno';
 
 
 export default class CambiarController {
@@ -286,6 +287,56 @@ export default class CambiarController {
             })
             }
             return producto
+      }
+
+      public async cambiarAlumno({ request, response }: HttpContextContract) {
+        const id = request.param('id');
+    
+        const validationSchema = schema.create({
+          nombre: schema.string(),
+          telefono: schema.number(),
+          edad: schema.number(),
+        });
+    
+        try {
+          await request.validate({
+            schema: validationSchema,
+          });
+        } catch (error) {
+          return response.badRequest(error.messages);
+        }
+    
+        const usuario = await Alumno.find(id);
+    
+        if (usuario) {
+          usuario.nombre = request.input('nombre');
+          usuario.telefono = request.input('telefono');
+          usuario.edad = request.input('edad');
+    
+          await usuario.save();
+    
+          return response.status(204).json({
+            Status: 204,
+            Msg: 'Los datos se cambiaron de forma exitosa',
+            Data: usuario,
+          });
+        }
+    
+        return response.status(400).json({
+          Status: 400,
+          Msg: 'usuario no encontrado',
+        });
+      }
+
+      public async editAlumno ({ params, response }: HttpContextContract){
+        const alumno = await Database.from('alumnos').where('id', params.id).first()
+        if (!alumno) {
+            return response.status(404).json({
+                Status: 404,
+                Msg: "usuario no encontrado",
+            })
+            }
+            return alumno
       }
       
       

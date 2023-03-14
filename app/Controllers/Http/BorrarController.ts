@@ -3,6 +3,7 @@ import Cliente from 'App/Models/Cliente'
 import Provedor from 'App/Models/Provedor'
 import Empleado from 'App/Models/Empleado'
 import User from 'App/Models/User'
+import Alumno from 'App/Models/Alumno';
 
 export default class BorrarController {
     async borrarCliente({ request, response },  Tok = '') {
@@ -60,4 +61,22 @@ export default class BorrarController {
     
         return response.status(400).json({ Status: 400, Msg: 'usuario no encontrado' })
       }
+
+     
+      async borrarAlumno({ request, response },  Tok = '') {
+        const id = request.param('id');
+       
+        const user = await Alumno.find(id)
+        if (user) {
+          user.Status = 0
+          await user.save()
+          return response.status(204).json({ Status: 204 })
+        }
+    
+
+  return response.status(400).json({ Status: 400, Msg: 'usuario no encontrado' })
+}
+
+
+        
 }

@@ -124,3 +124,10 @@ Route.delete('/libros/:libro', 'LibroController.eliminarLibro').middleware(['Rol
 
 Route.get('alumnos', 'SeleccionarController.mostrarAlumnos');
 
+Route.post('alumnos/crear', 'InsertarController.insertarAlumno');
+
+Route.delete('alumnos/destroy/:id', 'BorrarController.borrarAlumno');
+
+Route.put('alumnos/:id/edit', 'CambiarController.cambiarAlumno');
+
+Route.get('alumnos/:id/edit', 'CambiarController.editAlumno');
