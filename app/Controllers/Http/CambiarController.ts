@@ -7,7 +7,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema } from '@ioc:Adonis/Core/Validator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Alumno from 'App/Models/Alumno';
-
+import Event from '@ioc:Adonis/Core/Event';
 
 export default class CambiarController {
     
@@ -336,6 +336,7 @@ export default class CambiarController {
                 Msg: "usuario no encontrado",
             })
             }
+            Event.emit('message', "alumno editado")
             return alumno
       }
       
