@@ -11,7 +11,7 @@ import Alumno from 'App/Models/Alumno';
 
 export default class CambiarController {
     
-    public async CambiarCliente({ request, response }: HttpContextContract, Tok: string = "") {
+    public async CambiarCliente({ request, response }: HttpContextContract) {
         const id = request.param('id');
         const validationSchema = schema.create({
           Nombre: schema.string(),
@@ -52,7 +52,7 @@ export default class CambiarController {
         });
       }    
 
-      public async CambiarProducto({ request, response }: HttpContextContract, Tok: string = "") {
+      public async CambiarProducto({ request, response }: HttpContextContract) {
         const id = request.param('id')
         const validationSchema = schema.create({
           Nombre: schema.string(),
@@ -103,7 +103,7 @@ export default class CambiarController {
 
 
 
-      public async CambiarEmpleado({ request, response }: HttpContextContract, Tok: string = "") {
+      public async CambiarEmpleado({ request, response }: HttpContextContract) {
         const id = request.param('id');
         const validationSchema = schema.create({
           Nombre: schema.string(),
@@ -144,7 +144,7 @@ export default class CambiarController {
       }
       
 
-      public async CambiarProvedor({ request, response }: HttpContextContract,  Tok: string = "") {
+      public async CambiarProvedor({ request, response }: HttpContextContract) {
         const id = request.param('id');
 
         const validationSchema = schema.create({
