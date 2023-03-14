@@ -124,3 +124,5 @@ Route.delete('/libros/:libro', 'LibroController.eliminarLibro').middleware(['Rol
 
 Route.get('alumnos', 'SeleccionarController.mostrarAlumnos');
 
+Route.get('stream', 'SeleccionarController.serverSentStream');
+

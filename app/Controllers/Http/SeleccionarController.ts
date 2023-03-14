@@ -7,6 +7,8 @@ import Producto from "App/Models/Producto";
 import Compra from 'App/Models/Compra';
 import Rol from 'App/Models/Rol';
 import Alumno from 'App/Models/Alumno';
+import Event from '@ioc:Adonis/Core/Event';
+import { Readable } from 'stream';
 
 export default class SeleccionarController {
     public async SeleccionarCliente({ params, response }: HttpContextContract) {
@@ -206,6 +208,23 @@ export default class SeleccionarController {
         return response.json(paises)
       }
       
-      
+      public async serverSentStream({ response }) {
+        response.response.setHeader('content-type','text/event-stream')
+        response.response.setHeader('Access-Control-Allow-Origin','*')
+        response.response.setHeader("Cache-Control","no-cache")
+        response.response.setHeader( "Connection", "keep-alive")
+        const stream = new Readable({read(){}})
+        response.response.write(':open\n\n')
+
+        // Agregamos datos al objeto Readable y enviamos el evento SSE
+        stream.push('data: hay cambios\n\n')
+        response.response.write(stream.read())
+
+        Event.on('message',(msj)=>{
+          stream.push(`data: ${msj} emit!\n\n`)
+          response.response.write(stream.read())
+        })
+          
+      }
       
 }
