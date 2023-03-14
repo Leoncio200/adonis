@@ -122,3 +122,5 @@ Route.delete('/libros/:libro', 'LibroController.eliminarLibro').middleware(['Rol
 
 }).prefix('api/v2').middleware(['auth:api', 'status'])
 
+Route.get('alumnos', 'SeleccionarController.mostrarAlumnos');
+

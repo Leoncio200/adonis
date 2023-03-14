@@ -6,6 +6,7 @@ import Empleado from "App/Models/Empleado";
 import Producto from "App/Models/Producto";
 import Compra from 'App/Models/Compra';
 import Rol from 'App/Models/Rol';
+import Alumno from 'App/Models/Alumno';
 
 export default class SeleccionarController {
     public async SeleccionarCliente({ params, response }: HttpContextContract) {
@@ -199,6 +200,12 @@ export default class SeleccionarController {
           Data: roles
         })
       }
+
+      async mostrarAlumnos({ response }) {
+        const paises = await Alumno.all()
+        return response.json(paises)
+      }
+      
       
       
 }
