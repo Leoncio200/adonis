@@ -20,8 +20,12 @@ export default class PaisController {
       }
 
       async mostrarAutores({ response }) {
-        const autores = await Autor.all()
-        return response.json(autores)
+        try {
+          const autores = await Autor.all()
+          return response.json(autores)
+        } catch (error) {
+          response.status(400).send('Error al obtener los autores')
+        }
       }
 
       public async mostrarLibros({ }: HttpContextContract) {
