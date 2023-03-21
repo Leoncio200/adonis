@@ -220,7 +220,7 @@ export default class SeleccionarController {
         const stream = new Readable({read(){}})
         response.response.write(':open\n\n')
 
-        // Agregamos datos al objeto Readable y enviamos el evento SSE
+           // Agregamos datos al objeto Readable y enviamos el evento SSE
         stream.push('data: hay cambios\n\n')
         response.response.write(stream.read())
 

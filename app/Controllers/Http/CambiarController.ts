@@ -314,7 +314,7 @@ export default class CambiarController {
           usuario.edad = request.input('edad');
     
           await usuario.save();
-    
+          Event.emit('message', "alumno editado")
           return response.status(204).json({
             Status: 204,
             Msg: 'Los datos se cambiaron de forma exitosa',
@@ -336,7 +336,7 @@ export default class CambiarController {
                 Msg: "usuario no encontrado",
             })
             }
-            Event.emit('message', "alumno editado")
+            Event.emit('message', "alumno eliminado")
             return alumno
       }
       
