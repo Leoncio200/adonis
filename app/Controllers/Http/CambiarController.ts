@@ -8,6 +8,8 @@ import { schema } from '@ioc:Adonis/Core/Validator';
 import Database from '@ioc:Adonis/Lucid/Database';
 import Alumno from 'App/Models/Alumno';
 import Event from '@ioc:Adonis/Core/Event';
+import UserPartida from 'App/Models/UserPartida';
+
 
 export default class CambiarController {
     
@@ -340,7 +342,12 @@ export default class CambiarController {
             return alumno
       }
       
-      
+      public async cambiarTurno({ params, response }: HttpContextContract) {
+        const jugador = await UserPartida.find(params.id);
+        if (jugador){
+          Event.emit('message', `${jugador.turno}`)
+        }
+      }
 
 
 }

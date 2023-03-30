@@ -468,5 +468,23 @@ export default class InsertarController {
         
         Event.emit('message', "nuevo jugador")
       }
-    
+
+    public async ataque ({ request, response }: HttpContextContract){
+      const validationSchema = schema.create({
+        id_partida: schema.number(),
+        nombre: schema.string(),
+        turno: schema.number(),
+      })
+      
+      try {
+        request.validate({
+          schema: validationSchema,
+        })
+      } catch (error) {
+        return response.badRequest(error.messages)
+      }
+
+      const ataque = new t
+      Event.emit('message', "el jugador ataco")
+    }
 }

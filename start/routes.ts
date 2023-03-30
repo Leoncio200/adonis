@@ -139,3 +139,4 @@ Route.get('partida', 'SeleccionarController.SeleccionarPartida');
 
 Route.post('partida', 'InsertarController.insertarPartida');
 
+Route.get('cambiarJugador', 'SeleccionarController.cambiarJugador');
