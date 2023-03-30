@@ -12,6 +12,7 @@
     "@japa/preset-adonis": "^1.2.0",
     "@japa/runner": "^2.5.1",
     "@types/proxy-addr": "^2.0.0",
+    "@types/socket.io": "^3.0.2",
     "@types/source-map-support": "^0.5.6",
     "adonis-preset-ts": "^2.1.0",
     "pino-pretty": "^9.4.0",
@@ -30,6 +31,9 @@
     "@adonisjs/repl": "^3.1.11",
     "@adonisjs/validator": "^12.4.2",
     "@adonisjs/view": "^6.2.0",
+    "@adonisjs/websocket": "^1.0.12",
+    "@adonisjs/websocket-client": "^1.0.9",
+    "adonis-lucid-mongodb": "^1.1.0",
     "aws-sdk": "^2.1331.0",
     "axios": "^1.3.4",
     "indicative": "^7.4.4",
@@ -39,6 +43,8 @@
     "phc-bcrypt": "^1.0.8",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
     "source-map-support": "^0.5.21",
     "sqlite3": "^5.1.4"
   }

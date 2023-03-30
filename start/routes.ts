@@ -133,3 +133,9 @@ Route.delete('alumnos/destroy/:id', 'BorrarController.borrarAlumno');
 Route.put('alumnos/:id/edit', 'CambiarController.cambiarAlumno');
 
 Route.get('alumnos/:id/edit', 'CambiarController.editAlumno');
+
+
+Route.get('partida', 'SeleccionarController.SeleccionarPartida');
+
+Route.post('partida', 'InsertarController.insertarPartida');
+

@@ -10,6 +10,7 @@ import Producto from 'App/Models/Producto';
 import Compra from 'App/Models/Compra';
 import Alumno from 'App/Models/Alumno';
 import Event from '@ioc:Adonis/Core/Event';
+import Partida from 'App/Models/Partida';
 
 
 export default class InsertarController {
@@ -412,6 +413,37 @@ export default class InsertarController {
           Msg: 'Los datos se insertaron de forma exitosa',
           Data: alumno,
         })
+      }
+
+
+      insertarPartida({ request, response }: HttpContextContract) {
+        const validationSchema = schema.create({
+          ventana1: schema.string(),
+          ventana2: schema.string(),
+        })
+
+        try {
+          request.validate({
+            schema: validationSchema,
+          })
+        } catch (error) {
+          return response.badRequest(error.messages)
+        }
+
+        const partida = new Partida()
+        partida.ventana1 = request.input('ventana1')
+        partida.ventana2 = request.input('ventana2')
+        partida.Status = 1
+        partida.save()
+
+        Event.emit('message', "partida nueva")
+
+        return response.created({
+          Status: 201,
+          Msg: 'Los datos se insertaron de forma exitosa',
+          Data: partida,
+        })
+
       }
       
     

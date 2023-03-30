@@ -9,6 +9,7 @@ import Rol from 'App/Models/Rol';
 import Alumno from 'App/Models/Alumno';
 import Event from '@ioc:Adonis/Core/Event';
 import { Readable } from 'stream';
+import Partida from 'App/Models/Partida';
 
 export default class SeleccionarController {
     public async SeleccionarCliente({ params, response }: HttpContextContract) {
@@ -230,6 +231,34 @@ export default class SeleccionarController {
         })
           
       }
+
+      public async SeleccionarPartida({ params, response }: HttpContextContract) {
+        const id = params.id || 0;
+        if (id === 0) {
+          const partidas = await Database
+            .query()
+            .select('partidas.*')
+            .from('partidas')
+            .where('Status', 1);
+          return response.status(200).json({
+            Status: 200,
+            Data: partidas
+          });
+        }
+        const partida = await Partida.find(id);
+        if (partida) {
+          partida.Status = 1;
+          await partida.save();
+          return response.status(200).json({
+            Status: 200,
+            Data: partida
+          });
+        }
+        return response.status(404).json({
+          Status: 404,
+          Msg: 'Partida no encontrada'
+        });
       
-      
+}
+
 }
