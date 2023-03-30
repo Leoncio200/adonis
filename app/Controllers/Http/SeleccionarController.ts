@@ -10,6 +10,7 @@ import Alumno from 'App/Models/Alumno';
 import Event from '@ioc:Adonis/Core/Event';
 import { Readable } from 'stream';
 import Partida from 'App/Models/Partida';
+import UserPartida from 'App/Models/UserPartida';
 
 export default class SeleccionarController {
     public async SeleccionarCliente({ params, response }: HttpContextContract) {
@@ -260,5 +261,41 @@ export default class SeleccionarController {
         });
       
 }
+
+      public async cambiarJugador({params, response}: HttpContextContract){
+        const inicio = params.inicio || true;
+        const id_partida = params.id_partida || 0;
+        const turno = params.turno || 0;
+        if(inicio === true){
+          const jugador = await Database
+            .query()
+            .select('usersPartida.*')
+            .from('usersPartida')
+            .where('id_partida', id_partida)
+            .where('turno', 1);
+            
+            Event.emit('message', `turno del siguiente jugador`)
+            
+            return response.status(200).json({
+              Status: 200,
+              Data: jugador
+            });
+          }
+        else {
+          const jugador = await Database
+            .query()
+            .select('usersPartida.*')
+            .from('usersPartida')
+            .where('id_partida', id_partida)
+            .where('turno', turno);
+            
+            Event.emit('message', `turno del siguiente jugador`)
+            
+            return response.status(200).json({
+            Status: 200,
+            Data: jugador
+          });
+          }
+      }
 
 }

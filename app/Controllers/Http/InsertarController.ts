@@ -11,7 +11,7 @@ import Compra from 'App/Models/Compra';
 import Alumno from 'App/Models/Alumno';
 import Event from '@ioc:Adonis/Core/Event';
 import Partida from 'App/Models/Partida';
-
+import UserPartida from 'App/Models/UserPartida';
 
 export default class InsertarController {
     public async Validacion({ request, response }: HttpContextContract) {
@@ -445,6 +445,28 @@ export default class InsertarController {
         })
 
       }
-      
+
+      insertarJugador({ request, response }: HttpContextContract) {
+        const validationSchema = schema.create({
+          id_partida: schema.number(),
+          nombre: schema.string(),
+          turno: schema.number(),
+        })
+        
+        try {
+          request.validate({
+            schema: validationSchema,
+          })
+        } catch (error) {
+          return response.badRequest(error.messages)
+        }
+        const jugador = new UserPartida()
+        jugador.id_partida = request.input('id_partida')
+        jugador.nombre = request.input('nombre')
+        jugador.turno = request.input('turno')
+        jugador.save()
+        
+        Event.emit('message', "nuevo jugador")
+      }
     
 }
