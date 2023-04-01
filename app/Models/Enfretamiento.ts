@@ -5,6 +5,9 @@ export default class Enfretamiento extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public nombre: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

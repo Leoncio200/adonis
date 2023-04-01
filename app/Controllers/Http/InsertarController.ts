@@ -12,6 +12,9 @@ import Alumno from 'App/Models/Alumno';
 import Event from '@ioc:Adonis/Core/Event';
 import Partida from 'App/Models/Partida';
 import UserPartida from 'App/Models/UserPartida';
+import Ataque from 'App/Models/Ataque';
+import Enfretamiento from 'App/Models/Enfretamiento';
+import Historial from 'App/Models/Historial';
 
 export default class InsertarController {
     public async Validacion({ request, response }: HttpContextContract) {
@@ -471,9 +474,10 @@ export default class InsertarController {
 
     public async ataque ({ request, response }: HttpContextContract){
       const validationSchema = schema.create({
-        id_partida: schema.number(),
-        nombre: schema.string(),
-        turno: schema.number(),
+        Y: schema.number(),
+        X: schema.string(),
+        id_enfrentamiento: schema.number(),
+        id_user: schema.number(),
       })
       
       try {
@@ -484,7 +488,13 @@ export default class InsertarController {
         return response.badRequest(error.messages)
       }
 
-      const ataque = new t
+      const ataque = new Ataque()
+      ataque.X = request.input('X')
+      ataque.Y = request.input('Y')
+      ataque.id_enfrentamiento = request.input('id_enfrentamiento')
+      ataque.id_user = request.input('id_user')
+      ataque.save()
       Event.emit('message', "el jugador ataco")
     }
+    
 }

@@ -11,6 +11,7 @@ import Event from '@ioc:Adonis/Core/Event';
 import { Readable } from 'stream';
 import Partida from 'App/Models/Partida';
 import UserPartida from 'App/Models/UserPartida';
+import { MongoClient } from 'mongodb'
 
 export default class SeleccionarController {
     public async SeleccionarCliente({ params, response }: HttpContextContract) {
@@ -296,6 +297,20 @@ export default class SeleccionarController {
             Data: jugador
           });
           }
+      }
+      public async sensores ({ request, response }: HttpContextContract){
+        const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+        const client = new MongoClient(url);
+        const dbName = 'Sensores';
+
+        await client.connect();
+        const db = client.db(dbName);
+        const collection = db.collection('SensoresInformacion');
+
+        const findResult = await collection.find({}).toArray();
+        // the following code examples can be pasted here...
+
+        return findResult;
       }
 
 }
