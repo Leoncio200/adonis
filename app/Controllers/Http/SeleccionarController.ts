@@ -388,6 +388,70 @@ export default class SeleccionarController {
 
     return response.status(201).json(insertResult.ops);
 }
+
+public async deleteSensor({ params, response }: HttpContextContract) {
+  const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+  const client = new MongoClient(url);
+  const dbName = 'Sensores';
+
+  const { id } = params;
+
+  await client.connect();
+  const db = client.db(dbName);
+  const collection = db.collection('SensoresInformacion');
+
+  const deleteResult = await collection.deleteOne({ _id: new ObjectId(id) });
+
+  if (deleteResult.deletedCount === 0) {
+    return response.status(404).json({ message: 'Sensor no encontrado.' });
+  }
+
+  return response.status(200).json({ message: 'Sensor eliminado correctamente.' });
+}
+
+public async obtenerSensor({ params, response }: HttpContextContract) {
+  const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+  const client = new MongoClient(url);
+  const dbName = 'Sensores';
+
+  const { id } = params;
+
+  await client.connect();
+  const db = client.db(dbName);
+  const collection = db.collection('SensoresInformacion');
+
+  const sensor = await collection.findOne({ _id: new ObjectId(id) });
+
+  if (!sensor) {
+    return response.status(404).json({ message: 'Sensor no encontrado.' });
+  }
+
+  return response.status(200).json(sensor);
+}
+
+public async actualizarSensor({ request, response }: HttpContextContract){
+  const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+  const client = new MongoClient(url);
+  const dbName = 'Sensores';
+
+  const { id } = request.params();
+  const sensor = request.all();
+
+  await client.connect();
+  const db = client.db(dbName);
+  const collection = db.collection('SensoresInformacion');
+
+  const updateResult = await collection.updateOne({ _id: new ObjectId(id) }, { $set: sensor });
+
+  if (updateResult.matchedCount === 0) {
+    return response.status(404).json({ message: 'Sensor no encontrado.' });
+  }
+
+  return response.status(200).json({ message: 'Sensor actualizado correctamente.' });
+}
+
+
+
     
 
 

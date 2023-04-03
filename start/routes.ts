@@ -18,6 +18,7 @@
 |
 */
 
+import { RouteResource } from '@adonisjs/http-server/build/src/Router/Resource';
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async () => {
@@ -141,11 +142,25 @@ Route.post('partida', 'InsertarController.insertarPartida');
 
 Route.get('cambiarJugador', 'SeleccionarController.cambiarJugador');
 
-Route.get('sensores', 'SeleccionarController.sensores');//mostarsensores
+
 Route.get('tiposensores', 'SeleccionarController.tipoSensor');//mostrardeterminadosensor
 Route.put('/actualizarUbicacion/:id', 'SeleccionarController.actualizarUbicacion');//actualizarubicacion
-Route.get('/obtenerDescripcion/:id', 'SeleccionarController.obtenerDescripcion');//obtenerDescripcion
-Route.post('/insertarSensores', 'SeleccionarController.addSensor');//insertarSensores
+Route.delete('/sensores/:id', 'SeleccionarController.deleteSensor');//eliminarSensor
+
+
+
+
+
+Route.get('api/v2/sensores', 'SeleccionarController.sensores');//mostarsensores
+Route.post('api/v2/sensores', 'SeleccionarController.addSensor');//insertarSensores
+Route.delete('api/v2/sensores/:id', 'SeleccionarController.deleteSensor');//eliminarSensores
+Route.get('/api/v2/sensores/UP/:id', 'SeleccionarController.obtenerSensor')//obtenerSensor
+Route.put('/api/v2/sensores/:id', 'SeleccionarController.actualizarSensor')//actualizarSensor
+
+
+
+
+
 
 
 
