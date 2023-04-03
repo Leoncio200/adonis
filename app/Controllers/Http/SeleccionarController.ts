@@ -11,9 +11,12 @@ import Event from '@ioc:Adonis/Core/Event';
 import { Readable } from 'stream';
 import Partida from 'App/Models/Partida';
 import UserPartida from 'App/Models/UserPartida';
-import { MongoClient } from 'mongodb'
+import { MongoClient } from 'mongodb';
+import { ObjectId } from 'mongodb';
+
 
 export default class SeleccionarController {
+  
     public async SeleccionarCliente({ params, response }: HttpContextContract) {
         const id = params.id || 0;
         if (id === 0) {
@@ -298,6 +301,7 @@ export default class SeleccionarController {
           });
           }
       }
+
       public async sensores ({ request, response }: HttpContextContract){
         const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
         const client = new MongoClient(url);
@@ -312,5 +316,79 @@ export default class SeleccionarController {
 
         return findResult;
       }
+
+      public async tipoSensor ({ request, response }: HttpContextContract){
+        const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+        const client = new MongoClient(url);
+        const dbName = 'Sensores';
+
+        await client.connect();
+        const db = client.db(dbName);
+        const collection = db.collection('SensoresInformacion');
+
+        const findResult = await collection.find({ tipo: "temperatura" }).toArray();
+        // the following code examples can be pasted here...
+
+        return findResult;
+      }
+
+      public async actualizarUbicacion({ request, response }: HttpContextContract){
+        const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+        const client = new MongoClient(url);
+        const dbName = 'Sensores';
+    
+        const { id } = request.params();
+        const { ubicacion } = request.all();
+    
+        await client.connect();
+        const db = client.db(dbName);
+        const collection = db.collection('SensoresInformacion');
+    
+        const updateResult = await collection.updateOne({ _id: id }, { $set: { ubicacion: ubicacion } });
+    
+        if (updateResult.matchedCount === 0) {
+            return response.status(404).json({ message: 'Sensor no encontrado.' });
+        }
+    
+        return response.status(200).json({ message: 'Sensor actualizado correctamente.' });
+    }
+
+    public async obtenerDescripcion({ request, response }: HttpContextContract){
+      const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+      const client = new MongoClient(url);
+      const dbName = 'Sensores';
+
+      const { id } = request.params();
+
+      await client.connect();
+      const db = client.db(dbName);
+      const collection = db.collection('SensoresInformacion');
+
+      const findResult = await collection.findOne({ _id: id }, { projection: { descripcion: 1 } });
+
+      if (!findResult) {
+          return response.status(404).json({ message: 'Sensor no encontrado.' });
+      }
+
+      return response.status(200).json(findResult);
+  }
+
+  public async addSensor({ request, response }: HttpContextContract){
+    const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+    const client = new MongoClient(url);
+    const dbName = 'Sensores';
+
+    const sensor = request.all();
+
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection('SensoresInformacion');
+
+    const insertResult = await collection.insertOne(sensor);
+
+    return response.status(201).json(insertResult.ops);
+}
+    
+
 
 }

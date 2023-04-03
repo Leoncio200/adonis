@@ -141,4 +141,11 @@ Route.post('partida', 'InsertarController.insertarPartida');
 
 Route.get('cambiarJugador', 'SeleccionarController.cambiarJugador');
 
-Route.get('sensores', 'SeleccionarController.sensores');
+Route.get('sensores', 'SeleccionarController.sensores');//mostarsensores
+Route.get('tiposensores', 'SeleccionarController.tipoSensor');//mostrardeterminadosensor
+Route.put('/actualizarUbicacion/:id', 'SeleccionarController.actualizarUbicacion');//actualizarubicacion
+Route.get('/obtenerDescripcion/:id', 'SeleccionarController.obtenerDescripcion');//obtenerDescripcion
+Route.post('/insertarSensores', 'SeleccionarController.addSensor');//insertarSensores
+
+
+
