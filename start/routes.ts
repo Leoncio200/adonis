@@ -157,6 +157,9 @@ Route.delete('api/v2/sensores/:id', 'SeleccionarController.deleteSensor');//elim
 Route.get('/api/v2/sensores/UP/:id', 'SeleccionarController.obtenerSensor')//obtenerSensor
 Route.put('/api/v2/sensores/:id', 'SeleccionarController.actualizarSensor')//actualizarSensor
 
+Route.get('/api/v2/sensores/:id', 'SeleccionarController.obtenerDatos')//obtenerDatos
+
+
 
 
 

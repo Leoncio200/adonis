@@ -452,6 +452,25 @@ public async actualizarSensor({ request, response }: HttpContextContract){
 
 
 
+
+public async obtenerDatos({ params, response }: HttpContextContract){
+  const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+  const client = new MongoClient(url);
+  const dbName = 'Sensores';
+
+  await client.connect();
+  const db = client.db(dbName);
+  const collection = db.collection('sensoresDatos');
+
+  const id = params.id;
+  const sensor = await collection.findOne({ "sensor._id": id });
+
+  if(!sensor){
+      return response.status(404).json({ message: 'Sensor no encontrado' });
+  }
+
+  return response.json(sensor);
+}
     
 
 
