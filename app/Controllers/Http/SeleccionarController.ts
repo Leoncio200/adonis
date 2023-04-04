@@ -16,6 +16,9 @@ import { ObjectId } from 'mongodb';
 
 
 export default class SeleccionarController {
+  url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
+  client = new MongoClient(this.url);
+  dbName = 'Sensores';
   
     public async SeleccionarCliente({ params, response }: HttpContextContract) {
         const id = params.id || 0;
@@ -303,12 +306,8 @@ export default class SeleccionarController {
       }
 
       public async sensores ({ request, response }: HttpContextContract){
-        const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
-        const client = new MongoClient(url);
-        const dbName = 'Sensores';
-
-        await client.connect();
-        const db = client.db(dbName);
+        await this.client.connect();
+        const db = this.client.db(this.dbName);
         const collection = db.collection('SensoresInformacion');
 
         const findResult = await collection.find({}).toArray();
@@ -318,12 +317,8 @@ export default class SeleccionarController {
       }
 
       public async tipoSensor ({ request, response }: HttpContextContract){
-        const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
-        const client = new MongoClient(url);
-        const dbName = 'Sensores';
-
-        await client.connect();
-        const db = client.db(dbName);
+        await this.client.connect();
+        const db = this.client.db(this.dbName);
         const collection = db.collection('SensoresInformacion');
 
         const findResult = await collection.find({ tipo: "temperatura" }).toArray();
@@ -333,15 +328,11 @@ export default class SeleccionarController {
       }
 
       public async actualizarUbicacion({ request, response }: HttpContextContract){
-        const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
-        const client = new MongoClient(url);
-        const dbName = 'Sensores';
-    
         const { id } = request.params();
         const { ubicacion } = request.all();
     
-        await client.connect();
-        const db = client.db(dbName);
+        await this.client.connect();
+        const db = this.client.db(this.dbName);
         const collection = db.collection('SensoresInformacion');
     
         const updateResult = await collection.updateOne({ _id: id }, { $set: { ubicacion: ubicacion } });
@@ -354,14 +345,10 @@ export default class SeleccionarController {
     }
 
     public async obtenerDescripcion({ request, response }: HttpContextContract){
-      const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
-      const client = new MongoClient(url);
-      const dbName = 'Sensores';
-
       const { id } = request.params();
 
-      await client.connect();
-      const db = client.db(dbName);
+      await this.client.connect();
+      const db = this.client.db(this.dbName);
       const collection = db.collection('SensoresInformacion');
 
       const findResult = await collection.findOne({ _id: id }, { projection: { descripcion: 1 } });
@@ -374,14 +361,10 @@ export default class SeleccionarController {
   }
 
   public async addSensor({ request, response }: HttpContextContract){
-    const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
-    const client = new MongoClient(url);
-    const dbName = 'Sensores';
-
     const sensor = request.all();
 
-    await client.connect();
-    const db = client.db(dbName);
+    await this.client.connect();
+    const db = this.client.db(this.dbName);
     const collection = db.collection('SensoresInformacion');
 
     const insertResult = await collection.insertOne(sensor);
@@ -390,14 +373,10 @@ export default class SeleccionarController {
 }
 
 public async deleteSensor({ params, response }: HttpContextContract) {
-  const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
-  const client = new MongoClient(url);
-  const dbName = 'Sensores';
-
   const { id } = params;
 
-  await client.connect();
-  const db = client.db(dbName);
+  await this.client.connect();
+  const db = this.client.db(this.dbName);
   const collection = db.collection('SensoresInformacion');
 
   const deleteResult = await collection.deleteOne({ _id: new ObjectId(id) });
@@ -410,14 +389,10 @@ public async deleteSensor({ params, response }: HttpContextContract) {
 }
 
 public async obtenerSensor({ params, response }: HttpContextContract) {
-  const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
-  const client = new MongoClient(url);
-  const dbName = 'Sensores';
-
   const { id } = params;
 
-  await client.connect();
-  const db = client.db(dbName);
+  await this.client.connect();
+  const db = this.client.db(this.dbName);
   const collection = db.collection('SensoresInformacion');
 
   const sensor = await collection.findOne({ _id: new ObjectId(id) });
@@ -430,15 +405,11 @@ public async obtenerSensor({ params, response }: HttpContextContract) {
 }
 
 public async actualizarSensor({ request, response }: HttpContextContract){
-  const url = 'mongodb+srv://Leoncio:Leoncio2@cluster0.kk3lull.mongodb.net/?retryWrites=true&w=majority';
-  const client = new MongoClient(url);
-  const dbName = 'Sensores';
-
   const { id } = request.params();
   const sensor = request.all();
 
-  await client.connect();
-  const db = client.db(dbName);
+  await this.client.connect();
+  const db = this.client.db(this.dbName);
   const collection = db.collection('SensoresInformacion');
 
   const updateResult = await collection.updateOne({ _id: new ObjectId(id) }, { $set: sensor });
