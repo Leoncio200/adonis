@@ -10,7 +10,7 @@ export default class LoginController {
     numero: any
     public async Login({ auth, request, response }){
         const { email, password } = request.all();
-
+      
         const validationSchema = schema.create({
             email: schema.string({}, [rules.required(), rules.email()]),
             password: schema.string({}, [rules.required()])

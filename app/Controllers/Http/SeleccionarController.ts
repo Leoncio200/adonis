@@ -360,7 +360,7 @@ export default class SeleccionarController {
       return response.status(200).json(findResult);
   }
 
-  public async addSensor({ request, response }: HttpContextContract){
+  public async addSensor({ request, response, auth }: HttpContextContract){
     const sensor = request.all();
 
     await this.client.connect();
@@ -442,7 +442,29 @@ public async obtenerDatos({ params, response }: HttpContextContract){
 
   return response.json(sensor);
 }
+
+
+public async obtenerSalones ({ request, response }: HttpContextContract){
+  await this.client.connect();
+  const db = this.client.db(this.dbName);
+  const collection = db.collection('Salones');
+
+  const findResult = await collection.find({}).toArray();
+  // the following code examples can be pasted here...
+
+  return findResult;
+}
+    public async addSalon ({ request, response, auth }: HttpContextContract){
+      request.body().user = auth.user;
+      const sensor = request.body();
     
+      await this.client.connect();
+      const db = this.client.db(this.dbName);
+      const collection = db.collection('Salones');
+      
+      const insertResult = await collection.insertOne(sensor);
+      console.log(sensor)
+    }
 
 
 }

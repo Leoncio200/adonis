@@ -159,8 +159,10 @@ Route.put('/api/v2/sensores/:id', 'SeleccionarController.actualizarSensor')//act
 
 Route.get('/api/v2/sensores/:id', 'SeleccionarController.obtenerDatos')//obtenerDatos
 
+Route.get('api/v2/salones', 'SeleccionarController.obtenerSalones');//mostarsalones
 
 
+Route.post('api/v2/salones/add', 'SeleccionarController.addSalon').middleware(['auth']);//insertarSalones
 
 
 
