@@ -120,6 +120,11 @@ Route.delete('/pais/:pais', 'LibroController.eliminarPais').middleware(['Rol:1']
 Route.delete('/libros/:libro', 'LibroController.eliminarLibro').middleware(['Rol:1']);
 
 
+Route.post('/partidas', 'BattleshipsController.CrearEnfrentamiento')
+Route.post('/unirse/:id', 'BattleshipsController.UnirseEnfrentamiento')
+Route.get('/jugador/:id', 'BattleshipsController.jugador')
+Route.post('/ataque', 'BattleshipsController.Ataque')
+Route.post('/respuesta', 'BattleshipsController.respuesta')
 
 }).prefix('api/v2').middleware(['auth:api', 'status'])
 
@@ -165,6 +170,9 @@ Route.get('api/v2/salones', 'SeleccionarController.obtenerSalones');//mostarsalo
 Route.post('api/v2/salones/add', 'SeleccionarController.addSalon').middleware(['auth']);//insertarSalones
 
 
+
+Route.get('/partidas', 'BattleshipsController.SeleccionarEnfrentamiento')
+Route.get('/sala/:id', 'BattleshipsController.Sala')
 
 
 

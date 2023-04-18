@@ -234,7 +234,7 @@ export default class SeleccionarController {
         response.response.write(stream.read())
 
         Event.on('message',(msj)=>{
-          stream.push(`data: ${msj} emit!\n\n`)
+          stream.push(`data: ${JSON.stringify(msj)}\n\n`)
           response.response.write(stream.read())
         })
           

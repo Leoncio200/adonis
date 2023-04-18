@@ -86,7 +86,7 @@ export default class LoginController {
             CodeTemporal: numero_aleatorio,
             password: passwordHash,
           })
-          await new Correo(user).send()
+          //await new Correo(user).send()
         try {
 
             const apiResponse = await this.axios.post('https://rest.nexmo.com/sms/json', { 
@@ -103,7 +103,7 @@ export default class LoginController {
             response.status(500).send('Error al enviar el SMS')
         }
         response.json({
-             status: 'Usuario creado',
+            status: 'Usuario creado',
             usuario: user
         })
     }catch (error) {
@@ -123,7 +123,6 @@ export default class LoginController {
 
     public async Validacion({ request, response }){
       const { Correo, Verificacion } = request.all();
-      if (request.hasValidSignature()) {
       const user = User.findByOrFail('email', Correo);
       if ((await user).CodeTemporal == Verificacion){
         (await user).active = 1;
@@ -132,14 +131,10 @@ export default class LoginController {
         message: 'Usuario verificado'
       })
       }
-       else{
+      else{
         return response.json({
           message: 'Usuario o contraseña incorrectos'
         })
-       }
-      }   
-      else{     
-      return 'Signature is missing or URL was tampered.'
       }
     }
 }
